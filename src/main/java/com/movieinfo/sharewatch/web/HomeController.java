@@ -1,6 +1,6 @@
-package com.movieinfo.sharewatch.controller;
+package com.movieinfo.sharewatch.web;
 
-import com.movieinfo.sharewatch.repository.movieRepository;
+import com.movieinfo.sharewatch.domain.movie.movieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,4 +15,12 @@ public class HomeController {
     public String index(){
         return "index";
     }
+
+    @GetMapping("/post")
+    public String postFront(){
+        return "post_register";
+    }
+
+    @GetMapping("/login")
+    public String login(){return "login_form";}
 }

@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.repository;
+package com.movieinfo.sharewatch.domain.movie;
 
 import com.movieinfo.sharewatch.domain.movie.Movie;
 import org.springframework.data.jpa.repository.JpaRepository;
