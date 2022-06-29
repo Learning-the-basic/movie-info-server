@@ -22,11 +22,10 @@ class PostsServiceTest {
                 builder()
                 .title(title)
                 .content(content)
-                .writer_id((long)111)
                 .status(Status.Y)
                 .build();
 
-        System.out.println(postsService.save(requestDto));
+        //System.out.println(postsService.save(requestDto,));
 
 
     }

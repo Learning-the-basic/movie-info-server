@@ -1,13 +1,13 @@
 package com.movieinfo.sharewatch.web;
 
+import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.service.PostsService;
 import com.movieinfo.sharewatch.web.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,8 +15,14 @@ public class PostsApiController {
 
     private final PostsService postsService;
 
+    private final HttpSession httpSession;
+
     @PostMapping("/api/posts")
-    public Long save(@RequestBody PostsSaveRequestDto requestDto){
-        return postsService.save(requestDto);
+    public Long save(@ModelAttribute("requestDto") PostsSaveRequestDto requestDto){
+        User user=(User)httpSession.getAttribute("user_ob");
+
+        System.out.println(requestDto.getTitle()+"\n"+"222222");
+
+        return postsService.save(requestDto,user);
     }
 }

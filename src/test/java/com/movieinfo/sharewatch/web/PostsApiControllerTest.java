@@ -51,7 +51,6 @@ class PostsApiControllerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-
     }
 
     @AfterEach
@@ -70,7 +69,6 @@ class PostsApiControllerTest {
                 builder()
                 .title(title)
                 .content(content)
-                .writer_id((long)111)
                 .status(Status.Y)
                 .build();
 
