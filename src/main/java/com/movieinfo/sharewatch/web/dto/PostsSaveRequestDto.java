@@ -28,7 +28,7 @@ public class PostsSaveRequestDto {
         return Posts.builder()
                 .title(title)
                 .content(content)
-                .status(Status.Y)
+                .status(status)
                 .user(user)
                 .build();
     }

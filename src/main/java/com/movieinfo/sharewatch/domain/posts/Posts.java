@@ -30,6 +30,7 @@ public class Posts extends BaseTimeEntity {
     private String content;
     @Column(columnDefinition = "integer default 0")
     private int count;
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     @Builder
