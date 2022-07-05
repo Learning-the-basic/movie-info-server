@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config;
+package com.movieinfo.sharewatch.config.security;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

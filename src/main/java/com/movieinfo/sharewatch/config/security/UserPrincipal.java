@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config;
+package com.movieinfo.sharewatch.config.security;
 
 import com.movieinfo.sharewatch.domain.user.User;
 import org.springframework.security.core.GrantedAuthority;

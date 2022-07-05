@@ -2,7 +2,7 @@ package com.movieinfo.sharewatch.config.auth;
 
 
 
-import com.movieinfo.sharewatch.config.UserPrincipal;
+import com.movieinfo.sharewatch.config.security.UserPrincipal;
 import com.movieinfo.sharewatch.config.auth.dto.OAuth2UserInfo;
 import com.movieinfo.sharewatch.domain.user.AuthProvider;
 import com.movieinfo.sharewatch.domain.user.User;
@@ -11,18 +11,13 @@ import com.movieinfo.sharewatch.exception.OAuth2AuthenticationProcessingExceptio
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.servlet.http.HttpSession;
-import java.util.Collections;
 import java.util.Optional;
 
 @RequiredArgsConstructor

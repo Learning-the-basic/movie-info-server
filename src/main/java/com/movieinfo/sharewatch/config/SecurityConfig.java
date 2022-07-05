@@ -5,6 +5,9 @@ import com.movieinfo.sharewatch.config.auth.CustomOAuth2UserService;
 import com.movieinfo.sharewatch.config.auth.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.movieinfo.sharewatch.config.auth.OAuth2AuthenticationFailureHandler;
 import com.movieinfo.sharewatch.config.auth.OAuth2AuthenticationSuccessHandler;
+import com.movieinfo.sharewatch.config.security.CustomUserDetailsService;
+import com.movieinfo.sharewatch.config.security.RestAuthenticationEntryPoint;
+import com.movieinfo.sharewatch.config.security.TokenAuthenticationFilter;
 import com.movieinfo.sharewatch.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final CustomUserDetailsService customUserDetailsService;
     private final CustomOAuth2UserService customOAuth2UserService;
-
     private final OAuth2AuthenticationSuccessHandler oAuth2AuthenticationSuccessHandler;
     private final OAuth2AuthenticationFailureHandler oAuth2AuthenticationFailureHandler;
 

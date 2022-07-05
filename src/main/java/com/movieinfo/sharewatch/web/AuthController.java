@@ -1,6 +1,6 @@
 package com.movieinfo.sharewatch.web;
 
-import com.movieinfo.sharewatch.config.auth.TokenProvider;
+import com.movieinfo.sharewatch.config.security.TokenProvider;
 import com.movieinfo.sharewatch.domain.user.AuthProvider;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
@@ -28,11 +28,8 @@ import java.net.URI;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-
     private final UserRepository userRepository;
-
     private final PasswordEncoder passwordEncoder;
-
     private final TokenProvider tokenProvider;
 
     @PostMapping("/login")
@@ -44,7 +41,6 @@ public class AuthController {
                         loginRequest.getPassword()
                 )
         );
-
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         String token = tokenProvider.createToken(authentication);

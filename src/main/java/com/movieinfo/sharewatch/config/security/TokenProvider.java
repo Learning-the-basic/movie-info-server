@@ -1,8 +1,7 @@
-package com.movieinfo.sharewatch.config.auth;
+package com.movieinfo.sharewatch.config.security;
 
 
 import com.movieinfo.sharewatch.config.AppProperties;
-import com.movieinfo.sharewatch.config.UserPrincipal;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
