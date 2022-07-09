@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,7 +16,7 @@ public class PostsApiController {
 
     private final PostsService postsService;
     @PostMapping("/api/posts")
-    public Long save(@ModelAttribute PostsSaveRequestDto requestDto){
+    public Long save(@Valid @ModelAttribute PostsSaveRequestDto requestDto){
 
         return postsService.save(requestDto);
     }
