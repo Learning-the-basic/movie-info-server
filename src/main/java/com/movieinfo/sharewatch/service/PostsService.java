@@ -1,8 +1,11 @@
 package com.movieinfo.sharewatch.service;
 
+import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.posts.PostsRepository;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
+import com.movieinfo.sharewatch.exception.user.UserException;
+import com.movieinfo.sharewatch.util.SecurityUtil;
 import com.movieinfo.sharewatch.web.dto.PostsSaveRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +18,14 @@ public class PostsService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long save(PostsSaveRequestDto requestDto, User user){
-        System.out.println(requestDto.getTitle()+"\n"+"11111");
-        return postsRepository.save(requestDto.toEntity(user)).getPostId();
+    public Long save(PostsSaveRequestDto requestDto){
+
+        Posts post=requestDto.toEntity();
+
+        post.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
+
+        return postsRepository.save(post).getPostId();
     }
+
+
 }

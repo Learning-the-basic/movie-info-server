@@ -2,16 +2,22 @@ package com.movieinfo.sharewatch.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
+import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.sun.istack.NotNull;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
+
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
@@ -45,6 +51,11 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Role role;
 
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    private List<Posts> postList = new ArrayList<>();
+
+
     @Builder
     public User(String name, String email, String imageUrl, String password, AuthProvider provider, String providerId, Role role) {
         this.name = name;
@@ -54,6 +65,13 @@ public class User extends BaseTimeEntity {
         this.provider = provider;
         this.providerId = providerId;
         this.role = role;
+    }
+
+
+
+    public void addPost(Posts post){
+        //post의 writer 설정은 post에서 함
+        postList.add(post);
     }
 
     public User update(String name, String email, String imageUrl) {

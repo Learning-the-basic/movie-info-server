@@ -20,7 +20,7 @@ public class Posts extends BaseTimeEntity {
     private Long postId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "userId")
+    @JoinColumn(name = "user_id")
     private User user;
 
     @Column(length = 255,nullable = false)
@@ -34,11 +34,15 @@ public class Posts extends BaseTimeEntity {
     private Status status;
 
     @Builder
-    public Posts( String title, Long writer_id, String content, Status status,User user) {
+    public Posts( String title, Long writer_id, String content, Status status) {
         this.title = title;
         this.content = content;
         this.count = 0;
         this.status = status;
-        this.user=user;
+    }
+
+    public void confirmWriter(User user) {
+        this.user = user;
+        user.addPost(this);
     }
 }

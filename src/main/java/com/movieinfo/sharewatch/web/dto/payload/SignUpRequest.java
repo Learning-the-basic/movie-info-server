@@ -25,5 +25,4 @@ public class SignUpRequest {
         this.password = password;
     }
 
-    // Getters and Setters (Omitted for brevity)
 }

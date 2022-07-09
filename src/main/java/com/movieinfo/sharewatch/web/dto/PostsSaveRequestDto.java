@@ -24,12 +24,11 @@ public class PostsSaveRequestDto {
         this.status = status;
     }
 
-    public Posts toEntity(User user){
+    public Posts toEntity(){
         return Posts.builder()
                 .title(title)
                 .content(content)
                 .status(status)
-                .user(user)
                 .build();
     }
 }

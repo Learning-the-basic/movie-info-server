@@ -14,15 +14,9 @@ import javax.servlet.http.HttpSession;
 public class PostsApiController {
 
     private final PostsService postsService;
-
-    private final HttpSession httpSession;
-
     @PostMapping("/api/posts")
-    public Long save(@ModelAttribute("requestDto") PostsSaveRequestDto requestDto){
-        User user=(User)httpSession.getAttribute("user_ob");
+    public Long save(@ModelAttribute PostsSaveRequestDto requestDto){
 
-        System.out.println(requestDto.getTitle()+"\n"+"222222");
-
-        return postsService.save(requestDto,user);
+        return postsService.save(requestDto);
     }
 }

@@ -9,6 +9,8 @@ import com.movieinfo.sharewatch.web.dto.payload.ApiResponse;
 import com.movieinfo.sharewatch.web.dto.payload.AuthResponse;
 import com.movieinfo.sharewatch.web.dto.payload.LoginRequest;
 import com.movieinfo.sharewatch.web.dto.payload.SignUpRequest;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 
+@Api(value = "Auth Controller", tags = "Auth")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
@@ -32,6 +35,7 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
+    @ApiOperation(value = "로그인", notes = "로그인을 한다.")
     @PostMapping("/login")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
