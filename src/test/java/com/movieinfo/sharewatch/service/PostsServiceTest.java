@@ -1,7 +1,7 @@
 package com.movieinfo.sharewatch.service;
 
 import com.movieinfo.sharewatch.domain.posts.Status;
-import com.movieinfo.sharewatch.web.dto.PostsSaveRequestDto;
+import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

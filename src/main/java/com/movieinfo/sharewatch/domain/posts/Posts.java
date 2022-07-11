@@ -45,4 +45,14 @@ public class Posts extends BaseTimeEntity {
         this.user = user;
         user.addPost(this);
     }
+
+    //== 내용 수정 ==//
+    public void updateTitle(String title) {
+        this.title = title;
+    }
+
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
 }

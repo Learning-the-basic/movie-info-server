@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.web.dto;
+package com.movieinfo.sharewatch.web.dto.post;
 
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.posts.Posts;

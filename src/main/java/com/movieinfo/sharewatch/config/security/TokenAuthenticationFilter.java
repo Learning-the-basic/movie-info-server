@@ -1,5 +1,6 @@
 package com.movieinfo.sharewatch.config.security;
 
+import com.movieinfo.sharewatch.service.CustomUserDetailsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
