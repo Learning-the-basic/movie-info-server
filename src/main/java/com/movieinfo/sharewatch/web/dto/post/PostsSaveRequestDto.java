@@ -1,24 +1,25 @@
-package com.movieinfo.sharewatch.web.dto;
+package com.movieinfo.sharewatch.web.dto.post;
 
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.posts.Posts;
+import com.movieinfo.sharewatch.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
 @NoArgsConstructor
 public class PostsSaveRequestDto {
 
     private String title;
-    private Long writer_id;
     private String content;
     private Status status;
 
     @Builder
-    public PostsSaveRequestDto(String title, Long writer_id, String content, Status status) {
+    public PostsSaveRequestDto(String title, String content, Status status) {
         this.title = title;
-        this.writer_id = writer_id;
         this.content = content;
         this.status = status;
     }
@@ -26,9 +27,8 @@ public class PostsSaveRequestDto {
     public Posts toEntity(){
         return Posts.builder()
                 .title(title)
-                .writer_id(writer_id)
                 .content(content)
-                .status(Status.Y)
+                .status(status)
                 .build();
     }
 }

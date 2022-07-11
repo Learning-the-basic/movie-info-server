@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.posts.PostsRepository;
-import com.movieinfo.sharewatch.web.dto.PostsSaveRequestDto;
+import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -30,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class PostsApiControllerTest {
+class PostsControllerTest {
 
     @LocalServerPort
     private int port;
@@ -51,7 +49,6 @@ class PostsApiControllerTest {
                 .webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-
     }
 
     @AfterEach
@@ -70,7 +67,6 @@ class PostsApiControllerTest {
                 builder()
                 .title(title)
                 .content(content)
-                .writer_id((long)111)
                 .status(Status.Y)
                 .build();
 
