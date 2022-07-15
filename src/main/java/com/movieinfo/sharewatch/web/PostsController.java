@@ -32,7 +32,7 @@ public class PostsController {
     @ApiOperation(value = "게시글 조회", notes = "게시글을 조회한다.")
     @GetMapping("api/posts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PostDto read(@PathVariable("id") Long post_id){
+    public PostDto read(@PathVariable Long post_id){
         return postsService.read(post_id);
     }
 

@@ -1,8 +1,9 @@
-package com.movieinfo.sharewatch.config.auth;
+package com.movieinfo.sharewatch.service;
 
 
 
-import com.movieinfo.sharewatch.config.security.UserPrincipal;
+import com.movieinfo.sharewatch.config.auth.OAuth2UserInfoFactory;
+import com.movieinfo.sharewatch.security.UserPrincipal;
 import com.movieinfo.sharewatch.config.auth.dto.OAuth2UserInfo;
 import com.movieinfo.sharewatch.domain.user.AuthProvider;
 import com.movieinfo.sharewatch.domain.user.User;

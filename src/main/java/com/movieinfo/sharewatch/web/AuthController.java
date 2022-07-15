@@ -1,7 +1,8 @@
 package com.movieinfo.sharewatch.web;
 
-import com.movieinfo.sharewatch.config.security.TokenProvider;
+import com.movieinfo.sharewatch.security.TokenProvider;
 import com.movieinfo.sharewatch.domain.user.AuthProvider;
+import com.movieinfo.sharewatch.domain.user.Role;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.BadRequestException;
@@ -61,7 +62,7 @@ public class AuthController {
         User user = User.builder().name(signUpRequest.getName())
                                     .email(signUpRequest.getEmail())
                                     .password(passwordEncoder.encode(signUpRequest.getPassword()))
-                                    .provider(AuthProvider.local).build();
+                                    .provider(AuthProvider.local).role(Role.USER).build();
 
         User result = userRepository.save(user);
 

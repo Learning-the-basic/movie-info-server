@@ -1,7 +1,7 @@
 package com.movieinfo.sharewatch.config.auth;
 
 import com.movieinfo.sharewatch.config.AppProperties;
-import com.movieinfo.sharewatch.config.security.TokenProvider;
+import com.movieinfo.sharewatch.security.TokenProvider;
 import com.movieinfo.sharewatch.exception.BadRequestException;
 import com.movieinfo.sharewatch.util.CookieUtils;
 import org.springframework.beans.factory.annotation.Autowired;
