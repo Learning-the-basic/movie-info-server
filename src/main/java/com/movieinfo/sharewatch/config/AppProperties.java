@@ -46,6 +46,7 @@ public class AppProperties {
     }
 
     public Auth getAuth() {
+        System.out.println(Long.toString(auth.tokenExpirationMsec));
         return auth;
     }
 
