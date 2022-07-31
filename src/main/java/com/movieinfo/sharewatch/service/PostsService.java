@@ -2,6 +2,8 @@ package com.movieinfo.sharewatch.service;
 
 import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.posts.PostsRepository;
+import com.movieinfo.sharewatch.domain.subscription.Subscription;
+import com.movieinfo.sharewatch.domain.subscription.SubscriptionRepository;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
 import com.movieinfo.sharewatch.util.SecurityUtil;
@@ -19,15 +21,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostsService {
     private final PostsRepository postsRepository;
     private final UserRepository userRepository;
-
+/*
     @Transactional
     public Long save(PostsSaveRequestDto requestDto){
 
-        Posts post=requestDto.toEntity();
+        Posts post = requestDto.toEntity();
 
         post.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
 
-        return postsRepository.save(post).getPostId();
+        return postsRepository.save(post).getId();
     }
 
     public PostDto read(Long id) {
@@ -50,6 +52,6 @@ public class PostsService {
         Posts post = postsRepository.findById(id).orElseThrow(RuntimeException::new);
         postsRepository.delete(post);
     }
-
+*/
 
 }
