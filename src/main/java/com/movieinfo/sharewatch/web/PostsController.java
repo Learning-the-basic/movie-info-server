@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 public class PostsController {
-/*
+
     private final PostsService postsService;
 
     //create
@@ -32,7 +32,7 @@ public class PostsController {
     @ApiOperation(value = "게시글 조회", notes = "게시글을 조회한다.")
     @GetMapping("api/posts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PostDto read(@PathVariable("id") Long post_id){
+    public PostDto read(@PathVariable Long post_id){
         return postsService.read(post_id);
     }
 
@@ -54,6 +54,4 @@ public class PostsController {
     public void delete(@ApiParam(value = "게시글 id", required = true) @PathVariable Long id) {
         postsService.delete(id);
     }
-
- */
 }

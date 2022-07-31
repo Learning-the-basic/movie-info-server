@@ -29,6 +29,7 @@ class PostsRepositoryTest {
         postsRepository.save(Posts.builder()
                 .title(title)
                 .content(content)
+                .writer_id((long)111)
                 .status(Status.Y)
                 .build() );
 
