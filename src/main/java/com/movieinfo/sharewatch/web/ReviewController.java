@@ -29,7 +29,7 @@ public class ReviewController {
     @PostMapping("/createReview")
     @ResponseStatus(HttpStatus.CREATED)
     //@Valid를 적어주면 유효성 검증이 진행 된다.
-    public Long saveReview(@Valid @ModelAttribute ReviewSaveRequestDto review){
+    public Long saveReview(@Valid @RequestParam ReviewSaveRequestDto review){
         //if (review.getReviewType() == 1){
 
         //}
