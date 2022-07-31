@@ -1,6 +1,7 @@
 package com.movieinfo.sharewatch.web.dto.payload;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class ApiResponse {

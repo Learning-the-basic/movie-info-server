@@ -1,9 +1,7 @@
 package com.movieinfo.sharewatch.util;
 
-import com.movieinfo.sharewatch.config.security.UserPrincipal;
+import com.movieinfo.sharewatch.security.UserPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 
 public class SecurityUtil {

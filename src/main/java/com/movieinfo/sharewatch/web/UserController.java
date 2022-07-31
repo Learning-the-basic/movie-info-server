@@ -1,7 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
-import com.movieinfo.sharewatch.config.CurrentUser;
-import com.movieinfo.sharewatch.config.security.UserPrincipal;
+import com.movieinfo.sharewatch.security.CurrentUser;
+import com.movieinfo.sharewatch.security.UserPrincipal;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.ResourceNotFoundException;

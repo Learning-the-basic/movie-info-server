@@ -1,6 +1,7 @@
 package com.movieinfo.sharewatch.web.dto.payload;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class AuthResponse {
@@ -11,5 +12,4 @@ public class AuthResponse {
         this.accessToken = accessToken;
     }
 
-    // Getters and Setters (Omitted for brevity)
 }

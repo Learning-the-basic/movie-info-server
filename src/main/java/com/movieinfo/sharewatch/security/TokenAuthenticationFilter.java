@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config.security;
+package com.movieinfo.sharewatch.security;
 
 import com.movieinfo.sharewatch.service.CustomUserDetailsService;
 import org.slf4j.Logger;
@@ -53,6 +53,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7, bearerToken.length());
         }
+        System.out.println("token not returned 11111111");
         return null;
     }
 }

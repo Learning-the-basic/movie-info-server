@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config;
+package com.movieinfo.sharewatch.security;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import java.lang.annotation.*;
