@@ -7,15 +7,16 @@ import com.movieinfo.sharewatch.web.dto.post.PostDto;
 import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
 public class SubscriptionDto extends PostDto{
 
-    private LocalDateTime subPeriod;
+    private String subPeriod;
 
     private String subService;
 
@@ -23,7 +24,7 @@ public class SubscriptionDto extends PostDto{
 
     @Builder
     public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
-                           LocalDateTime subPeriod, String subService, int subCharge){
+                           String subPeriod, String subService, int subCharge){
         super(id, title, content, createdAt, modifiedAt, userDto);
         this.subPeriod = subPeriod;
         this.subService = subService;
@@ -31,10 +32,11 @@ public class SubscriptionDto extends PostDto{
 
     }
 
-
     public SubscriptionDto(Long id, String title, String content, LocalDateTime createdDate, LocalDateTime modifiedDate,
-                           LocalDateTime subPeriod, String subService, int subCharge, UserDto toDto) {
+                           String subPeriod, String subService, int subCharge, UserDto toDto) {
     }
+
+
 
     public static SubscriptionDto toDto(Subscription sub){
        return new SubscriptionDto(
@@ -58,13 +60,15 @@ public class SubscriptionDto extends PostDto{
             private String content;
 
             private UserDto founder;
-            private LocalDateTime subPeriod;
+            private String subPeriod;
             private String subService;
             private int subCharge;
 
         public Subscription toEntity(){
 
-            return Subscription.BaseBuilder()
+            return Subscription.PostBuilder()
+                    .title(title)
+                    .content(content)
                     .subService(subService)
                     .subPeriod(subPeriod)
                     .subCharge(subCharge)
@@ -81,7 +85,7 @@ public class SubscriptionDto extends PostDto{
 
         private String title;
         private String content;
-        private LocalDateTime subPeriod;
+        private String subPeriod;
         private String subService;
         private int subCharge;
     }

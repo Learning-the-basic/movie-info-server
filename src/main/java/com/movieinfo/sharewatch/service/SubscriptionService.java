@@ -1,15 +1,10 @@
 package com.movieinfo.sharewatch.service;
 
-import com.movieinfo.sharewatch.domain.posts.Posts;
-import com.movieinfo.sharewatch.domain.posts.PostsRepository;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionRepository;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
 import com.movieinfo.sharewatch.util.SecurityUtil;
-import com.movieinfo.sharewatch.web.dto.post.PostDto;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateRequest;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
 import lombok.RequiredArgsConstructor;
@@ -29,17 +24,11 @@ public class SubscriptionService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long insertSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto, PostsSaveRequestDto post){
+    public Long insertSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
 
         Subscription sub = subRequestDto.toEntity();
 
-        sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
-
-         sub = Subscription.PostBuilder()
-            .title(post.getTitle())
-            .content(post.getContent())
-            .build();
-
+        //sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
 
         return subRepository.save(sub).getId();
     }
@@ -54,7 +43,7 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public void update(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
+    public void updateSubscription(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
         Optional<Subscription> sub = Optional.ofNullable(subRepository.findById(post_id).orElseThrow(RuntimeException::new));
 
         if(sub.isPresent()){
@@ -69,8 +58,8 @@ public class SubscriptionService {
     @Transactional
     @PreAuthorize("@postGuard.check(#id)")
     public void delete(Long id) {
-        Subscription subscription = subRepository.findById(id).orElseThrow(RuntimeException::new);
-        subRepository.delete(subscription);
+        Subscription subId = subRepository.findById(id).orElseThrow(RuntimeException::new);
+        subRepository.delete(subId);
     }
 
     @Transactional

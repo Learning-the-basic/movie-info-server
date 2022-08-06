@@ -1,10 +1,6 @@
 package com.movieinfo.sharewatch.web;
 
-import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.service.SubscriptionService;
-import com.movieinfo.sharewatch.web.dto.post.PostDto;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateRequest;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +31,7 @@ public class SubscriptionController {
     @ResponseStatus(HttpStatus.OK)
     public SubscriptionDto findSubscription(@PathVariable("id") Long post_id){
 
-        subService.updateCount(post_id);
+        //subService.updateCount(post_id);
 
         return subService.findSubscription(post_id);
     }
@@ -44,19 +40,19 @@ public class SubscriptionController {
     @ApiOperation(value = "커뮤니티 게시글 생성", notes = "커뮤니티 게시글을 생성한다.")
     @PostMapping("/api/subscription")
     @ResponseStatus(HttpStatus.CREATED)
-    public Long insertSubscription(@Valid @ModelAttribute SubscriptionDto.SubSaveRequestDto subSaveRequestDto, @Valid @ModelAttribute PostsSaveRequestDto post){
-        return subService.insertSubscription(subSaveRequestDto, post);
+    public Long insertSubscription(SubscriptionDto.SubSaveRequestDto subSaveRequestDto){
+        return subService.insertSubscription(subSaveRequestDto);
     }
 
     //update
     @ApiOperation(value = "커뮤니티 게시글 수정", notes = "커뮤니티 게시글을 수정한다.")
     @PutMapping("/api/subscription/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SubscriptionDto update(
+    public SubscriptionDto updateSubscription(
             @ApiParam(value = "게시글 id", required = true) @PathVariable Long id,
             @Valid @ModelAttribute SubscriptionDto.SubUpdateRequestDto subReq
     ) {
-        subService.update(id, subReq);
+        subService.updateSubscription(id, subReq);
         return subService.findSubscription(id);
     }
 
