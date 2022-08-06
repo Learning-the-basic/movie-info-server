@@ -6,14 +6,19 @@ import com.movieinfo.sharewatch.domain.review.ReviewRepository;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
 import com.movieinfo.sharewatch.util.SecurityUtil;
+import com.movieinfo.sharewatch.web.dto.post.PostDto;
 import com.movieinfo.sharewatch.web.dto.post.PostUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.review.ReivewUpdateResponse;
+import com.movieinfo.sharewatch.web.dto.review.ReviewDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewUpdateResponse;
+import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -24,15 +29,17 @@ public class ReviewService {
     @Transactional
     public  Long saveReview(ReviewSaveRequestDto reviewSaveRequestDto){
         Review review = reviewSaveRequestDto.toEntity();
-        review.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
+        review.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException("use not found")));
         return reviewRepository.save(review).getReviewId();
     }
 
     @Transactional
-    @PreAuthorize("@postGuard.check(#id)")
-    public void deleteReview(Long id) {
-        Review review = reviewRepository.findById(id).orElseThrow(RuntimeException::new);
-        reviewRepository.delete(review);
+    public Boolean deleteReview(Long id) {
+        Optional<Review> review = reviewRepository.findById(id);
+        if (review.isPresent()) {
+            reviewRepository.delete(review.get());
+        }
+        return true;
     }
 
     public ReivewUpdateResponse updateReview(Long id, ReviewUpdateResponse ruq) {
@@ -42,9 +49,21 @@ public class ReviewService {
         ruq.getReviewContent().ifPresent(review::updateReview);
         //리뷰 별점
         ruq.getMovieScore().ifPresent(review::updateMovieScore);
-        //리뷰 타입
-        ruq.getReviewType().ifPresent(review::updateReviewType);
-
         return new ReivewUpdateResponse(id);
+    }
+    public ReviewDto read(long id) {
+        Optional<Review> entity = reviewRepository.findById((long)id);
+        if(entity.isPresent()){
+            Review review = entity.get();
+            ReviewDto reviewDto = ReviewDto.builder()
+                    .reviewId(review.getReviewId())
+                    .movieScore(review.getMovieScore())
+                    .reviewContent(review.getReviewContent())
+                    .user(UserDto.toDto(review.getUser()))
+                    .createdAt(review.getCreatedDate())
+                    .build();
+            return reviewDto;
+        }
+        return null;
     }
 }

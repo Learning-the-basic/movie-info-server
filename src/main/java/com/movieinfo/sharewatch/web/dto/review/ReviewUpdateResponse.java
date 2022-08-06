@@ -19,6 +19,4 @@ public class ReviewUpdateResponse {
     @ApiModelProperty(value = "리뷰 별점", notes = "리뷰 별점을 입력해주세요", required = true, example = "review movieScore")
     private Optional<Double> movieScore;
 
-    @ApiModelProperty(value = "리뷰 타입", notes = "리뷰 타입을 변경해주세요", required = true, example = "review reviewType")
-    private Optional<Integer> reviewType;
 }

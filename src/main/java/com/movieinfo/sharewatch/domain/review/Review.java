@@ -16,39 +16,36 @@ public class Review extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "r_no")
+    @Column(name = "review_id")
     private Long reviewId;//리뷰 아이디
 
     @ManyToOne(fetch = FetchType.LAZY)//지연 로딩
     @JoinColumn(name = "user_id")
     private User user;//작성자 회원번호
 
-    @Column(name = "r_type", nullable = false)
-    private int reviewType;//리뷰 타입 - 1: 짧은 글 , 2: 긴글
 
     //@Column(name = "ref_m_no", nullable = false)
     //private int refMNo;//참조 영화 번호
 
-    @Column(name = "score", nullable = false, columnDefinition = "integer default 0")
+    @Column(name = "movieScore", nullable = false)
     private Double movieScore;//별점
 
-    @Lob//대용량 데이터
-    @Column(name="reviewContent", nullable = false)
+    @Column(name="reviewContent", nullable = false,columnDefinition = "TEXT")
     private String reviewContent;//리뷰 내용
 
-    @Column
-    private int like;//리뷰 좋아요 갯수
+    @Column(columnDefinition = "integer default 0")
+    private int count;
 
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @Builder
-    public Review(Long writer_id, String reviewContent, Double movieScore, int reviewType, Status status){
+    public Review(Long writer_id, String reviewContent, Double movieScore, Status status){
         this.reviewContent = reviewContent;
         this.movieScore = movieScore;
-        this.reviewType = reviewType;
-       // this.refMNo = refMNo;
+        this.count = 0;
         this.status = status;
+       // this.refMNo = refMNo;
     }
 
     public void confirmWriter(User user){
@@ -60,6 +57,5 @@ public class Review extends BaseTimeEntity {
     public void updateReview(String reviewContent){this.reviewContent = reviewContent;}
     //별점 수정
     public void updateMovieScore(Double movieScore){this.movieScore = movieScore;}
-    //타입 변경
-    public void updateReviewType(int reviewType){this.reviewType = reviewType;}
+
 }

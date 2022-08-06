@@ -1,6 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
 import com.movieinfo.sharewatch.service.ReviewService;
+import com.movieinfo.sharewatch.web.dto.post.PostDto;
 import com.movieinfo.sharewatch.web.dto.post.PostUpdateRequest;
 import com.movieinfo.sharewatch.web.dto.post.PostUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.review.ReivewUpdateResponse;
@@ -29,7 +30,7 @@ public class ReviewController {
     @PostMapping("/createReview")
     @ResponseStatus(HttpStatus.CREATED)
     //@Valid를 적어주면 유효성 검증이 진행 된다.
-    public Long saveReview(@Valid @RequestParam ReviewSaveRequestDto review){
+    public Long saveReview(@Valid @ModelAttribute ReviewSaveRequestDto review){
         //if (review.getReviewType() == 1){
 
         //}
@@ -46,10 +47,18 @@ public class ReviewController {
 
     //리뷰 수정
     @ApiOperation(value = "리뷰 수정", notes = "리뷰를 수정한다.")
-    @PutMapping("/api/posts/{id}")
+    @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReivewUpdateResponse updateReview(@ApiParam(value = "리뷰 id", required = true) @PathVariable Long id,
                                                                   @Valid @ModelAttribute ReviewUpdateResponse  reviewUpdateRequest){
         return reviewService.updateReview(id,reviewUpdateRequest);
+    }
+
+    //게시글 한개 조회
+    @ApiOperation(value = "리뷰 조회", notes = "리뷰를 조회한다.")
+    @GetMapping("/selectOne/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ReviewDto read(@ApiParam(value = "게시글 id", required = true)@PathVariable  Long id){
+        return reviewService.read(id);
     }
 }
