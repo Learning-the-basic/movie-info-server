@@ -24,22 +24,24 @@ public class SubscriptionService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long insertSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
+    public String insertSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
 
         Subscription sub = subRequestDto.toEntity();
 
-        //sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
+        sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
 
-        return subRepository.save(sub).getId();
+        return subRepository.save(sub).getTitle();
     }
 
+    @Transactional
     public SubscriptionDto findSubscription(Long id) {
-        return SubscriptionDto.toDto(subRepository.findById(id).orElseThrow(RuntimeException::new));
-    }
 
-    // 조회수 업데이트
-    public int updateCount(Long id){
-        return subRepository.updateCount(id);
+        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        // 조회수 업데이트
+        sub.increaseCount();
+
+        return SubscriptionDto.toDto(subRepository.findById(id).orElseThrow(RuntimeException::new));
     }
 
     @Transactional
@@ -56,10 +58,11 @@ public class SubscriptionService {
     }
 
     @Transactional
-    @PreAuthorize("@postGuard.check(#id)")
     public void delete(Long id) {
-        Subscription subId = subRepository.findById(id).orElseThrow(RuntimeException::new);
-        subRepository.delete(subId);
+        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        sub.delete();
+
     }
 
     @Transactional

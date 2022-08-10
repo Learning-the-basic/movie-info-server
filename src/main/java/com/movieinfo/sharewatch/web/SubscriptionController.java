@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,8 +22,13 @@ public class SubscriptionController {
     //selectAll
     @ApiOperation(value = "커뮤니티 게시글 전체 조회", notes = "커뮤니티 게시글모두 조회한다.")
     @GetMapping("/api/subscription/subList")
-    public void selectSubscriptionList(Model model){
+    public String selectSubscriptionList(Model model){
+
+        List<SubscriptionDto> list = subService.selectSubscriptionList();
+
         model.addAttribute("subList" , subService.selectSubscriptionList());
+
+        return list.get(0).getTitle();
     }
 
     //selectOne
@@ -30,9 +36,6 @@ public class SubscriptionController {
     @GetMapping("api/subscription/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SubscriptionDto findSubscription(@PathVariable("id") Long post_id){
-
-        //subService.updateCount(post_id);
-
         return subService.findSubscription(post_id);
     }
 
@@ -40,7 +43,7 @@ public class SubscriptionController {
     @ApiOperation(value = "커뮤니티 게시글 생성", notes = "커뮤니티 게시글을 생성한다.")
     @PostMapping("/api/subscription")
     @ResponseStatus(HttpStatus.CREATED)
-    public Long insertSubscription(SubscriptionDto.SubSaveRequestDto subSaveRequestDto){
+    public String insertSubscription(SubscriptionDto.SubSaveRequestDto subSaveRequestDto){
         return subService.insertSubscription(subSaveRequestDto);
     }
 

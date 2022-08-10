@@ -22,18 +22,20 @@ public class SubscriptionDto extends PostDto{
 
     private int subCharge;
 
+    private int count;
+
+    private Status status;
+
     @Builder
     public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
-                           String subPeriod, String subService, int subCharge){
+                           String subPeriod, String subService, int subCharge, int count, Status status){
         super(id, title, content, createdAt, modifiedAt, userDto);
         this.subPeriod = subPeriod;
         this.subService = subService;
         this.subCharge = subCharge;
+        this.count = count;
+        this.status = status;
 
-    }
-
-    public SubscriptionDto(Long id, String title, String content, LocalDateTime createdDate, LocalDateTime modifiedDate,
-                           String subPeriod, String subService, int subCharge, UserDto toDto) {
     }
 
 
@@ -45,10 +47,13 @@ public class SubscriptionDto extends PostDto{
                sub.getContent(),
                sub.getCreatedDate(),
                sub.getModifiedDate(),
+               UserDto.toDto(sub.getUser()),
                sub.getSubPeriod(),
                sub.getSubService(),
                sub.getSubCharge(),
-               UserDto.toDto(sub.getUser())
+               sub.getCount(),
+               sub.getStatus()
+
        );
     }
 
@@ -58,8 +63,6 @@ public class SubscriptionDto extends PostDto{
 
             private String title;
             private String content;
-
-            private UserDto founder;
             private String subPeriod;
             private String subService;
             private int subCharge;

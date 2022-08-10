@@ -50,23 +50,14 @@ public class Subscription extends Posts {
         this.subService = subService;
     }
 
-    //== 내용 수정 ==//
-/*
-    @Override
-    public void updateTitle(String title) {
-    }
 
-    @Override
-    public void updateContent(String content) {
-    }
- */
 
     public void confirmWriter(User user) {
         this.user = user;
         user.addPost(this);
     }
 
-
+    //== 내용 수정 ==//
     public void changeSub(String subTitle, String subContent, String subService, int subCharge, String subPeriod){
         this.title = subTitle;
         this.content = subContent;
@@ -74,5 +65,8 @@ public class Subscription extends Posts {
         this.subCharge = subCharge;
         this.subPeriod = subPeriod;
     }
+
+
+
 
 }

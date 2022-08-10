@@ -11,5 +11,5 @@ public interface SubscriptionRepository extends JpaRepository<Subscription,Long>
 
     @Modifying
     @Query("update Subscription  sub set sub.count = sub.count +1 where sub.Id = :id")
-    int updateCount(Long id);
+    void updateCount(Long id);
 }
