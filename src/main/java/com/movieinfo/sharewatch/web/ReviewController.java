@@ -1,5 +1,8 @@
 package com.movieinfo.sharewatch.web;
 
+import com.movieinfo.sharewatch.domain.user.UserRepository;
+import com.movieinfo.sharewatch.security.CurrentUser;
+import com.movieinfo.sharewatch.security.UserPrincipal;
 import com.movieinfo.sharewatch.service.ReviewService;
 import com.movieinfo.sharewatch.web.dto.post.PostDto;
 import com.movieinfo.sharewatch.web.dto.post.PostUpdateRequest;
@@ -11,11 +14,14 @@ import com.movieinfo.sharewatch.web.dto.review.ReviewUpdateResponse;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @RestController //Controller와 ResponseBody의 조합
 //단순 객체만을 반환하고 객체 데이터는 JSON 또는 XML 형식으로 HTTP응답에 담아서 전송
@@ -25,15 +31,15 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     //create
     @ApiOperation(value="리뷰 생성", notes = "리뷰를 생성한다.")
     @PostMapping("/createReview")
     @ResponseStatus(HttpStatus.CREATED)
     //@Valid를 적어주면 유효성 검증이 진행 된다.
     public Long saveReview(@Valid @ModelAttribute ReviewSaveRequestDto review){
-        //if (review.getReviewType() == 1){
-
-        //}
         return reviewService.saveReview(review);
     }
 
@@ -50,15 +56,35 @@ public class ReviewController {
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ReivewUpdateResponse updateReview(@ApiParam(value = "리뷰 id", required = true) @PathVariable Long id,
-                                                                  @Valid @ModelAttribute ReviewUpdateResponse  reviewUpdateRequest){
-        return reviewService.updateReview(id,reviewUpdateRequest);
+                                                                  @Valid @ModelAttribute ReviewUpdateResponse  reviewUpdate){
+        return reviewService.updateReview(id,reviewUpdate);
     }
 
-    //게시글 한개 조회
+    //리뷰한개 조회
     @ApiOperation(value = "리뷰 조회", notes = "리뷰를 조회한다.")
     @GetMapping("/selectOne/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ReviewDto read(@ApiParam(value = "게시글 id", required = true)@PathVariable  Long id){
+    public ReviewDto read(@ApiParam(value = "리뷰 id", required = true)@PathVariable  Long id){
         return reviewService.read(id);
+    }
+
+    //리뷰 여러개 조회
+    @ApiOperation(value = "리뷰 전체 조회", notes = "리뷰를 전체 조회한다.")
+    @GetMapping("/selectList")
+    @ResponseStatus(HttpStatus.OK)
+    public String readList(Model model){
+        List<ReviewDto> list =  reviewService.selectReviewAll();
+        model.addAttribute("reviewList", reviewService.selectReviewAll());
+    return list.toString();
+    }
+    
+    //리뷰 리스트 조회(개인 것)
+    @ApiOperation(value = "내가 작성한 리뷰조회", notes = "리뷰를 조회한다.")
+    @GetMapping("/selectListM")
+    @ResponseStatus(HttpStatus.OK)
+    public String read(@ApiParam(value = "리뷰 email", required = true)@PathVariable  String email, Model model){
+        List<ReviewDto> list =  reviewService.selectReviewAllMy(email);
+        model.addAttribute("reviewList", reviewService.selectReviewAllMy(email));
+        return list.toString();
     }
 }

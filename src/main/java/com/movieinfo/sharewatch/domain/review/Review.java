@@ -23,9 +23,11 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;//작성자 회원번호
 
+    @Column(name = "reftype", nullable = false)
+    private String reftype;//참조분류 (S:짧은글, L:긴글)
 
-    //@Column(name = "ref_m_no", nullable = false)
-    //private int refMNo;//참조 영화 번호
+    @Column(name = "refMNo", nullable = false)
+    private String refMNo;//참조 영화 번호
 
     @Column(name = "movieScore", nullable = false)
     private Double movieScore;//별점
@@ -40,12 +42,13 @@ public class Review extends BaseTimeEntity {
     private Status status;
 
     @Builder
-    public Review(Long writer_id, String reviewContent, Double movieScore, Status status){
+    public Review(Long writer_id, String reftype, String reviewContent, Double movieScore, Status status, String refMNo){
         this.reviewContent = reviewContent;
         this.movieScore = movieScore;
         this.count = 0;
         this.status = status;
-       // this.refMNo = refMNo;
+        this.refMNo = refMNo;
+        this.reftype = reftype;
     }
 
     public void confirmWriter(User user){
@@ -57,5 +60,8 @@ public class Review extends BaseTimeEntity {
     public void updateReview(String reviewContent){this.reviewContent = reviewContent;}
     //별점 수정
     public void updateMovieScore(Double movieScore){this.movieScore = movieScore;}
+    //타입 수정
+    public void updateRefType(String reftype){this.reftype = reftype;}
 
+    public void increaseWatch(){this.count++;}
 }
