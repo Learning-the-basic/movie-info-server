@@ -128,9 +128,8 @@ public class ReviewService {
                         .createdAt(review.getCreatedDate())
                         .build();
                 reviewDtoList.add(dto);
-            }else{
-                continue;
             }
+
         }
         return reviewDtoList;
     }
