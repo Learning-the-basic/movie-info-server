@@ -46,16 +46,10 @@ public class Posts extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void updateTitle(String title) { this.title=title; }
-    public void updateContent(String content) {this.content = content; }
-
     public void increaseCount() {
         this.count++;
     }
 
-    /**
-     * 게시글 삭제
-     */
     public void delete() {
         this.status = Status.N;
     }

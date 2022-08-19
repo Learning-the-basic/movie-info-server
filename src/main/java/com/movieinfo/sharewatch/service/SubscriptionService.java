@@ -8,6 +8,9 @@ import com.movieinfo.sharewatch.util.SecurityUtil;
 import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
@@ -24,47 +27,11 @@ public class SubscriptionService {
     private final UserRepository userRepository;
 
     @Transactional
-    public String insertSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
+    public Page<SubscriptionDto> selectSubscriptionList(int page) {
 
-        Subscription sub = subRequestDto.toEntity();
-
-        sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
-
-        return subRepository.save(sub).getTitle();
+        return subRepository.findAll(PageRequest.of(page, 3)).map(SubscriptionDto::toDto);
     }
-
-    @Transactional
-    public SubscriptionDto findSubscription(Long id) {
-
-        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
-
-        // 조회수 업데이트
-        sub.increaseCount();
-
-        return SubscriptionDto.toDto(subRepository.findById(id).orElseThrow(RuntimeException::new));
-    }
-
-    @Transactional
-    public void updateSubscription(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
-        Optional<Subscription> sub = Optional.ofNullable(subRepository.findById(post_id).orElseThrow(RuntimeException::new));
-
-        if(sub.isPresent()){
-            Subscription subscription = sub.get();
-
-            subscription.changeSub(sReq.getTitle(), sReq.getContent(), sReq.getSubService(), sReq.getSubCharge(), sReq.getSubPeriod());
-        }
-
-        //return new PostUpdateResponse(post_id);
-    }
-
-    @Transactional
-    public void delete(Long id) {
-        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
-
-        sub.delete();
-
-    }
-
+/*
     @Transactional
     public List<SubscriptionDto> selectSubscriptionList() {
 
@@ -78,6 +45,50 @@ public class SubscriptionService {
 
             subscriptionDtos.add(subDto);
         }
-            return subscriptionDtos;
+        return subscriptionDtos;
     }
+*/
+    @Transactional
+    public SubscriptionDto selectSubscription(Long id) {
+
+        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        // 조회수 업데이트
+        sub.increaseCount();
+
+        return SubscriptionDto.toDto(subRepository.findById(id).orElseThrow(RuntimeException::new));
+    }
+
+    @Transactional
+    public String createSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
+
+        Subscription sub = subRequestDto.toEntity();
+
+        sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
+
+        return subRepository.save(sub).getTitle();
+    }
+
+
+    @Transactional
+    public void updateSubscription(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
+        Optional<Subscription> sub = Optional.ofNullable(subRepository.findById(post_id).orElseThrow(RuntimeException::new));
+
+        if(sub.isPresent()){
+            Subscription subscription = sub.get();
+
+            subscription.changeSub(sReq.getTitle(), sReq.getContent(), sReq.getSubService(), sReq.getSubCharge(), sReq.getSubPeriod());
+        }
+
+    }
+
+    @Transactional
+    public void deleteSubscription(Long id) {
+        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        sub.delete();
+
+    }
+
+
 }
