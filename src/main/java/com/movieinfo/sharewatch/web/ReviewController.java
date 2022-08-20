@@ -1,12 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
 import com.movieinfo.sharewatch.domain.user.UserRepository;
-import com.movieinfo.sharewatch.security.CurrentUser;
-import com.movieinfo.sharewatch.security.UserPrincipal;
 import com.movieinfo.sharewatch.service.ReviewService;
-import com.movieinfo.sharewatch.web.dto.post.PostDto;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateRequest;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.review.ReivewUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.review.ReviewDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewSaveRequestDto;
@@ -15,8 +10,10 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -72,19 +69,31 @@ public class ReviewController {
     @ApiOperation(value = "리뷰 전체 조회", notes = "리뷰를 전체 조회한다.")
     @GetMapping("/selectList")
     @ResponseStatus(HttpStatus.OK)
-    public String readList(Model model){
+   /* public String readList(Model model){
         List<ReviewDto> list =  reviewService.selectReviewAll();
         model.addAttribute("reviewList", reviewService.selectReviewAll());
     return list.toString();
     }
-    
+    */
+    public List<ReviewDto> selectReviewList(Model model, @RequestParam(required = false, defaultValue = "0", value = "page")  int page){
+
+        Page<ReviewDto> listPage =  reviewService.selectReviewList(page);;
+
+        int totalPage = listPage.getTotalPages();
+
+        model.addAttribute("Review" , listPage.getContent());
+        model.addAttribute("totalPage" , totalPage);
+
+        return listPage.getContent();
+    }
+
     //리뷰 리스트 조회(개인 것)
     @ApiOperation(value = "내가 작성한 리뷰조회", notes = "리뷰를 조회한다.")
     @GetMapping("/selectListM")
     @ResponseStatus(HttpStatus.OK)
-    public String read(@ApiParam(value = "리뷰 email", required = true)@PathVariable  String email, Model model){
-        List<ReviewDto> list =  reviewService.selectReviewAllMy(email);
-        model.addAttribute("reviewList", reviewService.selectReviewAllMy(email));
+    public String read(@ApiParam(value = "리뷰 영화", required = true)@PathVariable  String movieMn, Model model){
+        List<ReviewDto> list =  reviewService.selectReviewAllMy(movieMn);
+        model.addAttribute("reviewList", reviewService.selectReviewAllMy(movieMn));
         return list.toString();
     }
 }

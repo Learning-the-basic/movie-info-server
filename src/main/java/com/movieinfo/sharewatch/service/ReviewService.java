@@ -15,6 +15,9 @@ import com.movieinfo.sharewatch.web.dto.review.ReviewSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +88,7 @@ public class ReviewService {
     }
 
     @Transactional
-    public List<ReviewDto> selectReviewAll(){
+    /*public List<ReviewDto> selectReviewAll(){
 
         List<Review> reviews = reviewRepository.findAll();
 
@@ -105,18 +108,22 @@ public class ReviewService {
             reviewDtoList.add(dto);
         }
         return reviewDtoList;
+    }*/
+    public Page<ReviewDto> selectReviewList(int page){
+
+        return reviewRepository.findAll(PageRequest.of(page,5, Sort.by(Sort.Direction.DESC,"reviewId"))).map(ReviewDto::toDto);
     }
 
     @Transactional
-    public List<ReviewDto> selectReviewAllMy(String email){
+    public List<ReviewDto> selectReviewAllMy(String movieMn){
 
         List<Review> reviews = reviewRepository.findAll();
 
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
-        String emailinfo = email;
+        String movieMninfo = movieMn;
         for(Review review : reviews){
-            if(review.getUser().getEmail().equals(emailinfo)) {
+            if(review.getRefMNo().equals(movieMninfo)) {
                 ReviewDto dto = ReviewDto.builder()
                         .reviewId(review.getReviewId())
                         .reftype(review.getReftype())
@@ -128,6 +135,8 @@ public class ReviewService {
                         .createdAt(review.getCreatedDate())
                         .build();
                 reviewDtoList.add(dto);
+            }else{
+                continue;
             }
 
         }
