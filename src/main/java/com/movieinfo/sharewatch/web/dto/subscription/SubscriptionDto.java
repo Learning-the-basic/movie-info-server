@@ -7,34 +7,41 @@ import com.movieinfo.sharewatch.web.dto.post.PostDto;
 import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
-
 public class SubscriptionDto extends PostDto{
 
-    private LocalDateTime subPeriod;
+    private String subPeriod;
 
     private String subService;
 
     private int subCharge;
 
+    private int subMemLimit;
+
+    private int subMemCount;
+    private int count;
+    private Status status;
+
     @Builder
     public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
-                           LocalDateTime subPeriod, String subService, int subCharge){
+                           String subPeriod, String subService, int subCharge, int subMemLimit,int subMemCount, int count, Status status){
         super(id, title, content, createdAt, modifiedAt, userDto);
         this.subPeriod = subPeriod;
         this.subService = subService;
         this.subCharge = subCharge;
+        this.subMemLimit = subMemLimit;
+        this.subMemCount = subMemCount;
+        this.count = count;
+        this.status = status;
 
     }
 
 
-    public SubscriptionDto(Long id, String title, String content, LocalDateTime createdDate, LocalDateTime modifiedDate,
-                           LocalDateTime subPeriod, String subService, int subCharge, UserDto toDto) {
-    }
 
     public static SubscriptionDto toDto(Subscription sub){
        return new SubscriptionDto(
@@ -43,10 +50,15 @@ public class SubscriptionDto extends PostDto{
                sub.getContent(),
                sub.getCreatedDate(),
                sub.getModifiedDate(),
+               UserDto.toDto(sub.getUser()),
                sub.getSubPeriod(),
                sub.getSubService(),
                sub.getSubCharge(),
-               UserDto.toDto(sub.getUser())
+               sub.getSubMemLimit(),
+               sub.getSubMemCount(),
+               sub.getCount(),
+               sub.getStatus()
+
        );
     }
 
@@ -56,18 +68,22 @@ public class SubscriptionDto extends PostDto{
 
             private String title;
             private String content;
-
-            private UserDto founder;
-            private LocalDateTime subPeriod;
+            private String subPeriod;
             private String subService;
             private int subCharge;
+            private int subMemLimit;
+            private int subMemCount;
 
         public Subscription toEntity(){
 
-            return Subscription.BaseBuilder()
+            return Subscription.PostBuilder()
+                    .title(title)
+                    .content(content)
                     .subService(subService)
                     .subPeriod(subPeriod)
                     .subCharge(subCharge)
+                    .subMemLimit(subMemLimit)
+                    .subMemCount(subMemCount)
                     .build();
 
         }
@@ -81,9 +97,10 @@ public class SubscriptionDto extends PostDto{
 
         private String title;
         private String content;
-        private LocalDateTime subPeriod;
+        private String subPeriod;
         private String subService;
         private int subCharge;
+        private int subMemLimit;
     }
 
 }

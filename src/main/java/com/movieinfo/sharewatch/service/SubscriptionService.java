@@ -1,24 +1,18 @@
 package com.movieinfo.sharewatch.service;
 
-import com.movieinfo.sharewatch.domain.posts.Posts;
-import com.movieinfo.sharewatch.domain.posts.PostsRepository;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionRepository;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
 import com.movieinfo.sharewatch.util.SecurityUtil;
-import com.movieinfo.sharewatch.web.dto.post.PostDto;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateRequest;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateResponse;
-import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -29,50 +23,11 @@ public class SubscriptionService {
     private final UserRepository userRepository;
 
     @Transactional
-    public Long insertSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto, PostsSaveRequestDto post){
+    public Page<SubscriptionDto> selectSubscriptionList(int page) {
 
-        Subscription sub = subRequestDto.toEntity();
-
-        sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
-
-         sub = Subscription.PostBuilder()
-            .title(post.getTitle())
-            .content(post.getContent())
-            .build();
-
-
-        return subRepository.save(sub).getId();
+        return subRepository.findAll(PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC,"id"))).map(SubscriptionDto::toDto);
     }
-
-    public SubscriptionDto findSubscription(Long id) {
-        return SubscriptionDto.toDto(subRepository.findById(id).orElseThrow(RuntimeException::new));
-    }
-
-    // 조회수 업데이트
-    public int updateCount(Long id){
-        return subRepository.updateCount(id);
-    }
-
-    @Transactional
-    public void update(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
-        Optional<Subscription> sub = Optional.ofNullable(subRepository.findById(post_id).orElseThrow(RuntimeException::new));
-
-        if(sub.isPresent()){
-            Subscription subscription = sub.get();
-
-            subscription.changeSub(sReq.getTitle(), sReq.getContent(), sReq.getSubService(), sReq.getSubCharge(), sReq.getSubPeriod());
-        }
-
-        //return new PostUpdateResponse(post_id);
-    }
-
-    @Transactional
-    @PreAuthorize("@postGuard.check(#id)")
-    public void delete(Long id) {
-        Subscription subscription = subRepository.findById(id).orElseThrow(RuntimeException::new);
-        subRepository.delete(subscription);
-    }
-
+/*
     @Transactional
     public List<SubscriptionDto> selectSubscriptionList() {
 
@@ -86,6 +41,50 @@ public class SubscriptionService {
 
             subscriptionDtos.add(subDto);
         }
-            return subscriptionDtos;
+        return subscriptionDtos;
     }
+*/
+    @Transactional
+    public SubscriptionDto selectSubscription(Long id) {
+
+        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        // 조회수 업데이트
+        sub.increaseCount();
+
+        return SubscriptionDto.toDto(subRepository.findById(id).orElseThrow(RuntimeException::new));
+    }
+
+    @Transactional
+    public String createSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
+
+        Subscription sub = subRequestDto.toEntity();
+
+        sub.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
+
+        return subRepository.save(sub).getTitle();
+    }
+
+
+    @Transactional
+    public void updateSubscription(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
+        Optional<Subscription> sub = Optional.ofNullable(subRepository.findById(post_id).orElseThrow(RuntimeException::new));
+
+        if(sub.isPresent()){
+            Subscription subscription = sub.get();
+
+            subscription.changeSub(sReq.getTitle(), sReq.getContent(), sReq.getSubService(), sReq.getSubCharge(), sReq.getSubPeriod(), sReq.getSubMemLimit());
+        }
+
+    }
+
+    @Transactional
+    public void deleteSubscription(Long id) {
+        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
+
+        sub.delete();
+
+    }
+
+
 }

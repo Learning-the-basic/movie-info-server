@@ -37,6 +37,7 @@ public class Posts extends BaseTimeEntity {
     private int count;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(1) default 'Y'")
     private Status status;
 
     @Builder
@@ -45,7 +46,12 @@ public class Posts extends BaseTimeEntity {
         this.content = content;
     }
 
-    public void updateTitle(String title) { this.title=title; }
-    public void updateContent(String content) {this.content = content; }
+    public void increaseCount() {
+        this.count++;
+    }
+
+    public void delete() {
+        this.status = Status.N;
+    }
 
 }
