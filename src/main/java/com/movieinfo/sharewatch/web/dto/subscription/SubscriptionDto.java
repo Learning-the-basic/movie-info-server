@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 public class SubscriptionDto extends PostDto{
 
     private String subPeriod;
@@ -22,17 +21,21 @@ public class SubscriptionDto extends PostDto{
 
     private int subCharge;
 
-    private int count;
+    private int subMemLimit;
 
+    private int subMemCount;
+    private int count;
     private Status status;
 
     @Builder
     public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
-                           String subPeriod, String subService, int subCharge, int count, Status status){
+                           String subPeriod, String subService, int subCharge, int subMemLimit,int subMemCount, int count, Status status){
         super(id, title, content, createdAt, modifiedAt, userDto);
         this.subPeriod = subPeriod;
         this.subService = subService;
         this.subCharge = subCharge;
+        this.subMemLimit = subMemLimit;
+        this.subMemCount = subMemCount;
         this.count = count;
         this.status = status;
 
@@ -51,6 +54,8 @@ public class SubscriptionDto extends PostDto{
                sub.getSubPeriod(),
                sub.getSubService(),
                sub.getSubCharge(),
+               sub.getSubMemLimit(),
+               sub.getSubMemCount(),
                sub.getCount(),
                sub.getStatus()
 
@@ -66,6 +71,8 @@ public class SubscriptionDto extends PostDto{
             private String subPeriod;
             private String subService;
             private int subCharge;
+            private int subMemLimit;
+            private int subMemCount;
 
         public Subscription toEntity(){
 
@@ -75,6 +82,8 @@ public class SubscriptionDto extends PostDto{
                     .subService(subService)
                     .subPeriod(subPeriod)
                     .subCharge(subCharge)
+                    .subMemLimit(subMemLimit)
+                    .subMemCount(subMemCount)
                     .build();
 
         }
@@ -91,6 +100,7 @@ public class SubscriptionDto extends PostDto{
         private String subPeriod;
         private String subService;
         private int subCharge;
+        private int subMemLimit;
     }
 
 }

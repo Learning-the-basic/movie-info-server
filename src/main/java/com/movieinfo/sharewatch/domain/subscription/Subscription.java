@@ -40,14 +40,21 @@ public class Subscription extends Posts {
     @Column(name = "sub_charge", nullable = false)          // 요금 정보
     private int subCharge;
 
+    @Column(name = "sub_mem_limit", nullable = false)       // 구독 인원 제한
+    private int subMemLimit;
+
+    @Column(name = "sub_mem_count", columnDefinition = "integer default 1")       // 현제 구독 인원
+    private int subMemCount;
 
     @Builder(builderClassName = "PostBuilder", builderMethodName = "PostBuilder")
     public Subscription(Long id, User user, String title, String content, int count, Status status,
-                        String subService, String subPeriod, int subCharge){
+                        String subService, String subPeriod, int subMemLimit,int subMemCount, int subCharge){
         super(id, user, title, content, count, status);
         this.subCharge = subCharge;
         this.subPeriod = subPeriod;
         this.subService = subService;
+        this.subMemLimit = subMemLimit;
+        this.subMemCount = subMemCount;
     }
 
 
@@ -58,12 +65,13 @@ public class Subscription extends Posts {
     }
 
     //== 내용 수정 ==//
-    public void changeSub(String subTitle, String subContent, String subService, int subCharge, String subPeriod){
+    public void changeSub(String subTitle, String subContent, String subService, int subCharge, String subPeriod, int subMemLimit){
         this.title = subTitle;
         this.content = subContent;
         this.subService = subService;
         this.subCharge = subCharge;
         this.subPeriod = subPeriod;
+        this.subMemLimit = subMemLimit;
     }
 
 

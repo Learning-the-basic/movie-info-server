@@ -5,18 +5,14 @@ import com.movieinfo.sharewatch.domain.subscription.SubscriptionRepository;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
 import com.movieinfo.sharewatch.util.SecurityUtil;
-import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -29,7 +25,7 @@ public class SubscriptionService {
     @Transactional
     public Page<SubscriptionDto> selectSubscriptionList(int page) {
 
-        return subRepository.findAll(PageRequest.of(page, 3)).map(SubscriptionDto::toDto);
+        return subRepository.findAll(PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC,"id"))).map(SubscriptionDto::toDto);
     }
 /*
     @Transactional
@@ -77,7 +73,7 @@ public class SubscriptionService {
         if(sub.isPresent()){
             Subscription subscription = sub.get();
 
-            subscription.changeSub(sReq.getTitle(), sReq.getContent(), sReq.getSubService(), sReq.getSubCharge(), sReq.getSubPeriod());
+            subscription.changeSub(sReq.getTitle(), sReq.getContent(), sReq.getSubService(), sReq.getSubCharge(), sReq.getSubPeriod(), sReq.getSubMemLimit());
         }
 
     }

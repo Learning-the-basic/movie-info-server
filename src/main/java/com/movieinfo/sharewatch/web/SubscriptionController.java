@@ -37,7 +37,7 @@ public class SubscriptionController {
 
     //selectAll
     @ApiOperation(value = "커뮤니티 게시글 전체 조회", notes = "커뮤니티 게시글모두 조회한다.")
-    @GetMapping("/api/subscription")
+    @GetMapping("/api/subscriptions")
     public int selectSubscriptionList(Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page){
 
         Page<SubscriptionDto> listPage = subService.selectSubscriptionList(page);
@@ -52,7 +52,7 @@ public class SubscriptionController {
 
     //selectOne
     @ApiOperation(value = "커뮤니티 게시글 상세 조회", notes = "커뮤니티 게시글을 상세 조회한다.")
-    @GetMapping("api/subscription/{id}")
+    @GetMapping("api/subscriptions/{id}")
     @ResponseStatus(HttpStatus.OK)
     public SubscriptionDto selectSubscription(@PathVariable("id") Long post_id){
         return subService.selectSubscription(post_id);
@@ -80,7 +80,7 @@ public class SubscriptionController {
 
     //delete
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
-    @DeleteMapping("/api/subscription/{id}")
+    @DeleteMapping("/api/subscription-status/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteSubscription(@ApiParam(value = "게시글 id", required = true) @PathVariable Long id) {
         subService.deleteSubscription(id);
