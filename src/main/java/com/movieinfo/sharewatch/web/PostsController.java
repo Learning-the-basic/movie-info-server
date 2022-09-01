@@ -32,7 +32,7 @@ public class PostsController {
     @ApiOperation(value = "게시글 조회", notes = "게시글을 조회한다.")
     @GetMapping("api/posts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public PostDto read(@PathVariable Long post_id){
+    public PostDto read(@ApiParam(value = "게시글 id", required = true)@PathVariable Long post_id){
         return postsService.read(post_id);
     }
 
@@ -51,7 +51,7 @@ public class PostsController {
     @ApiOperation(value = "게시글 삭제", notes = "게시글을 삭제한다.")
     @DeleteMapping("/api/posts/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void delete(@ApiParam(value = "게시글 id", required = true) @PathVariable Long id) {
-        postsService.delete(id);
+    public Boolean delete(@ApiParam(value = "게시글 id", required = true) @PathVariable Long id) {
+        return postsService.delete(id);
     }
 }

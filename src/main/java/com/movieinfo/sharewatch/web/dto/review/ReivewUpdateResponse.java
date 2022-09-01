@@ -1,14 +1,10 @@
-package com.movieinfo.sharewatch.web.dto.post;
+package com.movieinfo.sharewatch.web.dto.review;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class PostUpdateResponse {
-
-
+public class ReivewUpdateResponse {
     private Long id;
-
-
 }
