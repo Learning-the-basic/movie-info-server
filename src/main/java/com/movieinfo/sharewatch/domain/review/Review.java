@@ -39,6 +39,7 @@ public class Review extends BaseTimeEntity {
     private int count;
 
     @Enumerated(EnumType.STRING)
+    @Column(columnDefinition = "varchar(1) default 'Y'")
     private Status status;
 
     @Builder
