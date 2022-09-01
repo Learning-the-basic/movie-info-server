@@ -1,4 +1,3 @@
-/*
 package com.movieinfo.sharewatch.domain.posts;
 
 import org.junit.jupiter.api.AfterEach;
@@ -44,4 +43,3 @@ class PostsRepositoryTest {
 
  */
 }
-
