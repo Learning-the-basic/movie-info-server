@@ -22,7 +22,7 @@ import java.util.Optional;
 public class PostsService {
     private final PostsRepository postsRepository;
     private final UserRepository userRepository;
-
+/*
     @Transactional
     public Long save(PostsSaveRequestDto requestDto){
 
@@ -48,12 +48,11 @@ public class PostsService {
     }
 
     @Transactional
-    public Boolean delete(Long id) {
-
-        Optional<Posts> oPost = postsRepository.findById(id);
-        if (oPost.isPresent()) {
-            postsRepository.delete(oPost.get());
-        }
-        return true;
+    @PreAuthorize("@postGuard.check(#id)")
+    public void delete(Long id) {
+        Posts post = postsRepository.findById(id).orElseThrow(RuntimeException::new);
+        postsRepository.delete(post);
     }
+
+*/
 }
