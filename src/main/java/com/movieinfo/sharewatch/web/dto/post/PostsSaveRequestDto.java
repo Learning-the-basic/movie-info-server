@@ -2,6 +2,7 @@ package com.movieinfo.sharewatch.web.dto.post;
 
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.posts.Posts;
+import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +24,7 @@ public class PostsSaveRequestDto {
         this.content = content;
         this.status = status;
     }
-
+/*
     public Posts toEntity(){
         return Posts.builder()
                 .title(title)
@@ -31,4 +32,5 @@ public class PostsSaveRequestDto {
                 .status(status)
                 .build();
     }
+*/
 }

@@ -6,11 +6,13 @@ import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class PostDto {
     private Long id;
     private String title;
@@ -26,7 +28,7 @@ public class PostDto {
 
     public static PostDto toDto(Posts post) {
         return new PostDto(
-                post.getPostId(),
+                post.getId(),
                 post.getTitle(),
                 post.getContent(),
                 post.getCreatedDate(),

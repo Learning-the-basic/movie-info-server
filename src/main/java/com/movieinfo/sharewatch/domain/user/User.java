@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.config.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.posts.Posts;
+import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -27,6 +28,7 @@ public class User extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
     private Long Id;
 
     @Column(nullable = false)
@@ -54,7 +56,7 @@ public class User extends BaseTimeEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<Posts> postList = new ArrayList<>();
+    private List<Subscription> subList = new ArrayList<>();
 
     @Builder
     public User(String name, String email, String imageUrl, String password, AuthProvider provider, String providerId, Role role) {
@@ -69,9 +71,9 @@ public class User extends BaseTimeEntity {
 
 
 
-    public void addPost(Posts post){
+    public void addPost(Subscription sub){
         //post의 writer 설정은 post에서 함
-        postList.add(post);
+        subList.add(sub);
     }
 
     public User update(String name, String email, String imageUrl) {
