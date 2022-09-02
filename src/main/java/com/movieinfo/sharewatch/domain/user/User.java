@@ -1,6 +1,7 @@
 package com.movieinfo.sharewatch.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.movieinfo.sharewatch.config.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
@@ -56,7 +57,6 @@ public class User extends BaseTimeEntity {
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<Subscription> subList = new ArrayList<>();
-
 
     @Builder
     public User(String name, String email, String imageUrl, String password, AuthProvider provider, String providerId, Role role) {

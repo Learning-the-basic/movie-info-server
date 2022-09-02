@@ -3,9 +3,10 @@ package com.movieinfo.sharewatch.service;
 
 
 import com.movieinfo.sharewatch.config.auth.OAuth2UserInfoFactory;
+import com.movieinfo.sharewatch.domain.user.Role;
 import com.movieinfo.sharewatch.security.UserPrincipal;
 import com.movieinfo.sharewatch.config.auth.dto.OAuth2UserInfo;
-import com.movieinfo.sharewatch.domain.user.AuthProvider;
+import com.movieinfo.sharewatch.config.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.OAuth2AuthenticationProcessingException;
@@ -41,11 +42,13 @@ public class CustomOAuth2UserService  extends DefaultOAuth2UserService {
     }
     private OAuth2User processOAuth2User(OAuth2UserRequest oAuth2UserRequest, OAuth2User oAuth2User) {
         OAuth2UserInfo oAuth2UserInfo = OAuth2UserInfoFactory.getOAuth2UserInfo(oAuth2UserRequest.getClientRegistration().getRegistrationId(), oAuth2User.getAttributes());
-        if(StringUtils.isEmpty(oAuth2UserInfo.getEmail())) {
+        if(!StringUtils.hasText(oAuth2UserInfo.getEmail())) {
             throw new OAuth2AuthenticationProcessingException("Email not found from OAuth2 provider");
         }
+
         Optional<User> userOptional = userRepository.findByEmail(oAuth2UserInfo.getEmail());
         User user;
+
         if(userOptional.isPresent()) {
             user = userOptional.get();
             if(!user.getProvider().equals(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))) {
@@ -64,6 +67,7 @@ public class CustomOAuth2UserService  extends DefaultOAuth2UserService {
                 .provider(AuthProvider.valueOf(oAuth2UserRequest.getClientRegistration().getRegistrationId()))
                 .providerId(oAuth2UserInfo.getId())
                 .name(oAuth2UserInfo.getName())
+                .role(Role.USER)
                 .email(oAuth2UserInfo.getEmail())
                 .imageUrl(oAuth2UserInfo.getImageUrl()).build();
 

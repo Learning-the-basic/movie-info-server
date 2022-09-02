@@ -1,7 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
 import com.movieinfo.sharewatch.security.TokenProvider;
-import com.movieinfo.sharewatch.domain.user.AuthProvider;
+import com.movieinfo.sharewatch.config.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.user.Role;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
@@ -35,6 +35,9 @@ public class AuthController {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+
+
+    //controller안에 검증 로직,repository가 그대로 드러남-> 리팩토링 필요
 
     @ApiOperation(value = "로그인", notes = "로그인을 한다.")
     @PostMapping("/login")
