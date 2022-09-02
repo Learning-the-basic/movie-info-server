@@ -2,7 +2,6 @@ package com.movieinfo.sharewatch.service;
 
 import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.posts.PostsRepository;
-import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
 import com.movieinfo.sharewatch.util.SecurityUtil;
@@ -15,21 +14,18 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
-
 @RequiredArgsConstructor
 @Service
 public class PostsService {
     private final PostsRepository postsRepository;
     private final UserRepository userRepository;
-
-
+/*
     @Transactional
     public Long save(PostsSaveRequestDto requestDto){
 
         Posts post=requestDto.toEntity();
 
-        post.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException("use not found")));
+        post.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException()));
 
         return postsRepository.save(post).getPostId();
     }
@@ -50,12 +46,10 @@ public class PostsService {
 
     @Transactional
     @PreAuthorize("@postGuard.check(#id)")
-    public Boolean delete(Long id) {
-
-        Optional<Posts> oPost = postsRepository.findById(id);
-        if (oPost.isPresent()) {
-            postsRepository.delete(oPost.get());
-        }
-        return true;
+    public void delete(Long id) {
+        Posts post = postsRepository.findById(id).orElseThrow(RuntimeException::new);
+        postsRepository.delete(post);
     }
+
+*/
 }
