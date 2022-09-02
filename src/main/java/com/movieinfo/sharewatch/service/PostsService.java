@@ -23,6 +23,7 @@ public class PostsService {
     private final PostsRepository postsRepository;
     private final UserRepository userRepository;
 
+
     @Transactional
     public Long save(PostsSaveRequestDto requestDto){
 
@@ -48,6 +49,7 @@ public class PostsService {
     }
 
     @Transactional
+    @PreAuthorize("@postGuard.check(#id)")
     public Boolean delete(Long id) {
 
         Optional<Posts> oPost = postsRepository.findById(id);
