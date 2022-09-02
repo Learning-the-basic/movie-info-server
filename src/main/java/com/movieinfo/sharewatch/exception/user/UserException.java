@@ -10,8 +10,9 @@ public class UserException extends RuntimeException{
     public UserException() {
         //super(message);
     }
+
     public UserException(String message) {
-        super(message);
+            super(message);
     }
 
 }
