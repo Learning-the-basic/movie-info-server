@@ -84,6 +84,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/css/**","/**/*.png", "/images/**", "/js/**", "/h2-console/**", "/profile","/login").permitAll()
                 .antMatchers("/auth/**", "/oauth2/**","/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                 .antMatchers("/api/**").hasRole(Role.USER.name())
+                .and()
+                .authorizeRequests()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
@@ -107,6 +109,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .mvcMatchers(  "/swagger-resources/**", "/v3/api-docs/**");
+                .antMatchers("/swagger-ui/**");
+
     }
 }
