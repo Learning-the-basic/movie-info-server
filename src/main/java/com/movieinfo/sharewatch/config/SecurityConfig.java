@@ -107,6 +107,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .mvcMatchers(  "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**");
+                .mvcMatchers(  "/swagger-resources/**", "/v3/api-docs/**");
     }
 }
