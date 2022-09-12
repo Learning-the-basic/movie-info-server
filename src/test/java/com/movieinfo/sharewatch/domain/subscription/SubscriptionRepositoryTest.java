@@ -1,3 +1,4 @@
+/*
 package com.movieinfo.sharewatch.domain.subscription;
 
 import com.movieinfo.sharewatch.domain.posts.Status;
@@ -100,12 +101,14 @@ class SubscriptionRepositoryTest {
         subs.stream().forEach(sub -> {
             System.out.println("sub === " + sub.getTitle());
         });
+*/
 /*
         subs1.stream().forEach(board -> {
             System.out.println("subs1 === " + subs1);
         });
 
- */
+ *//*
+
     }
     @Test
     void deleteSubscription(){
@@ -141,13 +144,15 @@ class SubscriptionRepositoryTest {
         entity.ifPresent(selectSub ->{ // ifPresent : null을 확인할 필요가 없이 값이 있으면 실행됨
             subscriptionRepository.delete(selectSub);
         });
+*/
 /*
         Board entity1 = boardRepository.findById((long) 2).get(); // entity1에는 찾아온 하나의 board타입 객체 정보가 들어가있음
         boardRepository.delete(entity1);
-*/
+*//*
+
 
         //  boardRepository.deleteById(3l); // l : long타입 , 3l : id값이 3이고 자료형이 long인 컬럼 조회 후 삭제
     }
 
 
-}
+}*/

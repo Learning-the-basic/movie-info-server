@@ -16,7 +16,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RestController
 public class PostsController {
-
+/*
     private final PostsService postsService;
 
     //create
@@ -54,4 +54,6 @@ public class PostsController {
     public void delete(@ApiParam(value = "게시글 id", required = true) @PathVariable Long id) {
         postsService.delete(id);
     }
+
+ */
 }
