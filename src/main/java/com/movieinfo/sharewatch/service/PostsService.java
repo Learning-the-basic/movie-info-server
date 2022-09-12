@@ -50,6 +50,6 @@ public class PostsService {
         Posts post = postsRepository.findById(id).orElseThrow(RuntimeException::new);
         postsRepository.delete(post);
     }
-*/
 
+*/
 }
