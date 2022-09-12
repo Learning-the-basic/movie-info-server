@@ -46,7 +46,6 @@ class SubscriptionRepositoryTest {
                 .content(content)
                 .subService(subService)
                 .subCharge(subCharge)
-                .subPeriod(subPeriod)
                 .status(status)
                 .build();
 
@@ -79,7 +78,6 @@ class SubscriptionRepositoryTest {
                     .content(content +i)
                     .subService(subService +i)
                     .subCharge(subCharge)
-                    .subPeriod(subPeriod +i)
                     .build();
             return dto;
 
@@ -131,7 +129,6 @@ class SubscriptionRepositoryTest {
                     .content(content +i)
                     .subService(subService +i)
                     .subCharge(subCharge)
-                    .subPeriod(subPeriod +i)
                     .build();
             return dto;
 

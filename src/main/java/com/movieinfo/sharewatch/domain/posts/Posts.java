@@ -2,16 +2,19 @@ package com.movieinfo.sharewatch.domain.posts;
 
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.user.User;
+import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@DynamicInsert
 //@Entity
 //@Inheritance(strategy = InheritanceType.JOINED)
 //@DiscriminatorColumn // 하위 테이블의 구분 컬럼 생성(default = DTYPE)
@@ -34,7 +37,7 @@ public class Posts extends BaseTimeEntity {
     protected String content;
 
     @Column(columnDefinition = "integer default 0", name = "post_count")
-    private int count;
+    private Integer count;
 
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(1) default 'Y'")

@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface SubscriptionGroupsRepository extends JpaRepository<SubscriptionGroups,Long> {
+public interface SubscriptionGroupRepository extends JpaRepository<SubscriptionGroup,Long> {
 
 }
