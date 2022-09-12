@@ -3,7 +3,9 @@ package com.movieinfo.sharewatch.domain.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.posts.Posts;
+import com.movieinfo.sharewatch.domain.review.Review;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
+import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -19,6 +21,7 @@ import static javax.persistence.CascadeType.ALL;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
+@ToString
 @Table(name = "users", uniqueConstraints = {
         @UniqueConstraint(columnNames = "email")
 })
@@ -53,9 +56,18 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Role role;
 
+    @ManyToOne
+    @JoinColumn(name = "subGroup_id")
+    private SubscriptionGroup subGroup;
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Subscription> subList = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Review> reviewList = new ArrayList<>();
 
 
     @Builder
@@ -76,6 +88,10 @@ public class User extends BaseTimeEntity {
         subList.add(sub);
     }
 
+    public void addReview(Review reivew){
+        reviewList.add(reivew);
+    }
+
     public User update(String name, String email, String imageUrl) {
         this.name = name;
         this.email=email;
@@ -86,6 +102,11 @@ public class User extends BaseTimeEntity {
 
     public String getRoleKey() {
         return this.role.getKey();
+    }
+
+    public void EnterSubGroup(SubscriptionGroup subGroup) {
+        this.subGroup = subGroup;
+        subGroup.addUser(this);
     }
 
 }

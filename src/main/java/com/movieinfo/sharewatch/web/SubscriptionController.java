@@ -1,6 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
+import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.service.SubscriptionService;
 import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
@@ -37,7 +38,7 @@ public class SubscriptionController {
 
     //selectAll
     @ApiOperation(value = "커뮤니티 게시글 전체 조회", notes = "커뮤니티 게시글모두 조회한다.")
-    @GetMapping("/api/subscriptions")
+    @GetMapping("/api/community")
     public int selectSubscriptionList(Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page){
 
         Page<SubscriptionDto> listPage = subService.selectSubscriptionList(page);
@@ -54,8 +55,8 @@ public class SubscriptionController {
     @ApiOperation(value = "커뮤니티 게시글 상세 조회", notes = "커뮤니티 게시글을 상세 조회한다.")
     @GetMapping("api/subscriptions/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SubscriptionDto selectSubscription(@PathVariable("id") Long post_id){
-        return subService.selectSubscription(post_id);
+    public String selectSubscription(@PathVariable("id") Long post_id){
+        return subService.selectSubscription(post_id).toString();
     }
 
     //create
@@ -70,7 +71,7 @@ public class SubscriptionController {
     @ApiOperation(value = "커뮤니티 게시글 수정", notes = "커뮤니티 게시글을 수정한다.")
     @PutMapping("/api/subscription/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SubscriptionDto updateSubscription(
+    public User updateSubscription(
             @ApiParam(value = "게시글 id", required = true) @PathVariable Long id,
             @Valid @ModelAttribute SubscriptionDto.SubUpdateRequestDto subReq
     ) {
@@ -84,6 +85,13 @@ public class SubscriptionController {
     @ResponseStatus(HttpStatus.OK)
     public void deleteSubscription(@ApiParam(value = "게시글 id", required = true) @PathVariable Long id) {
         subService.deleteSubscription(id);
+    }
+
+    @ApiOperation(value = "그룹 맴버 조회", notes = "그룹을 조회한다")
+    @DeleteMapping("/api/subscriptionGroup/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> selectSubscriptionGroup(@ApiParam(value = "그룹 id", required = true) @PathVariable Long id) {
+        return subService.selectSubscriptionGroup(id);
     }
 
 }

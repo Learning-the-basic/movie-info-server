@@ -1,6 +1,6 @@
 package com.movieinfo.sharewatch.web.dto.subscription;
 
-import com.movieinfo.sharewatch.domain.posts.Posts;
+
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.web.dto.post.PostDto;
@@ -8,39 +8,49 @@ import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 public class SubscriptionDto extends PostDto{
-
-    private String subPeriod;
-
     private String subService;
-
     private int subCharge;
-
     private int subMemLimit;
-
     private int subMemCount;
+
+    private SubScriptionGroupDto subGroupDto;
     private int count;
     private Status status;
 
+
     @Builder
     public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
-                           String subPeriod, String subService, int subCharge, int subMemLimit,int subMemCount, int count, Status status){
+                           String subService, int subCharge, int subMemLimit,int subMemCount, SubScriptionGroupDto subGroupDto, int count, Status status){
         super(id, title, content, createdAt, modifiedAt, userDto);
-        this.subPeriod = subPeriod;
         this.subService = subService;
         this.subCharge = subCharge;
         this.subMemLimit = subMemLimit;
         this.subMemCount = subMemCount;
+        this.subGroupDto = subGroupDto;
+        this.count = count;
+        this.status = status;
+
+    }
+     /*
+    @Builder
+    public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
+                           String subService, int subCharge, SubScriptionGroupDto subGroup, int count, Status status){
+        super(id, title, content, createdAt, modifiedAt, userDto);
+        this.subService = subService;
+        this.subCharge = subCharge;
+        this.subGroup = subGroup;
         this.count = count;
         this.status = status;
 
     }
 
+      */
 
 
     public static SubscriptionDto toDto(Subscription sub){
@@ -51,11 +61,11 @@ public class SubscriptionDto extends PostDto{
                sub.getCreatedDate(),
                sub.getModifiedDate(),
                UserDto.toDto(sub.getUser()),
-               sub.getSubPeriod(),
                sub.getSubService(),
                sub.getSubCharge(),
                sub.getSubMemLimit(),
                sub.getSubMemCount(),
+               SubScriptionGroupDto.toDto(sub.getSubGroup()),
                sub.getCount(),
                sub.getStatus()
 
@@ -68,11 +78,9 @@ public class SubscriptionDto extends PostDto{
 
             private String title;
             private String content;
-            private String subPeriod;
             private String subService;
             private int subCharge;
             private int subMemLimit;
-            private int subMemCount;
 
         public Subscription toEntity(){
 
@@ -80,10 +88,8 @@ public class SubscriptionDto extends PostDto{
                     .title(title)
                     .content(content)
                     .subService(subService)
-                    .subPeriod(subPeriod)
                     .subCharge(subCharge)
                     .subMemLimit(subMemLimit)
-                    .subMemCount(subMemCount)
                     .build();
 
         }
@@ -97,7 +103,6 @@ public class SubscriptionDto extends PostDto{
 
         private String title;
         private String content;
-        private String subPeriod;
         private String subService;
         private int subCharge;
         private int subMemLimit;

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.DynamicInsert;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -22,6 +23,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Builder(builderClassName = "BaseBuilder", builderMethodName = "BaseBuilder")
+@DynamicInsert
 public class Subscription extends Posts {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -30,13 +32,6 @@ public class Subscription extends Posts {
     @Column(name = "sub_service", nullable = false)         // 이용 서비스
     private String subService;
 
-    @Column(name = "sub_period", nullable = false)          // 이용 기간
-    //@Schema(description = "이용 기간", type = "LocalDateTime", example = "2022-08-04")
-   // @DateTimeFormat(pattern = "yyyy-MM-dd")
-   // @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", shape = JsonFormat.Shape.STRING)
-   // @ApiModelProperty(required = true, example = "2021-08-20T00:00:00")
-    private String subPeriod;
-
     @Column(name = "sub_charge", nullable = false)          // 요금 정보
     private int subCharge;
 
@@ -44,19 +39,40 @@ public class Subscription extends Posts {
     private int subMemLimit;
 
     @Column(name = "sub_mem_count", columnDefinition = "integer default 1")       // 현제 구독 인원
-    private int subMemCount;
+    private Integer subMemCount;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "subGroup_id")
+    private SubscriptionGroup subGroup;
+
+
 
     @Builder(builderClassName = "PostBuilder", builderMethodName = "PostBuilder")
     public Subscription(Long id, User user, String title, String content, int count, Status status,
-                        String subService, String subPeriod, int subMemLimit,int subMemCount, int subCharge){
+                        String subService, int subMemLimit,int subMemCount, int subCharge, SubscriptionGroup subGroup){
         super(id, user, title, content, count, status);
         this.subCharge = subCharge;
-        this.subPeriod = subPeriod;
         this.subService = subService;
         this.subMemLimit = subMemLimit;
         this.subMemCount = subMemCount;
+        this.subGroup = subGroup;
     }
 
+    /*
+    @Builder(builderClassName = "PostBuilder", builderMethodName = "PostBuilder")
+    public Subscription(Long id, User user, String title, String content, int count, Status status,
+                        String subService, int subCharge, SubscriptionGroups subGroup){
+        super(id, user, title, content, count, status);
+        this.subCharge = subCharge;
+        this.subService = subService;
+        this.subGroup = subGroup;
+
+    }
+     */
+    public void bindGroup(SubscriptionGroup subGroup) {
+        this.subGroup = subGroup;
+        subGroup.addGroup(this);
+    }
 
 
     public void confirmWriter(User user) {
@@ -65,16 +81,24 @@ public class Subscription extends Posts {
     }
 
     //== 내용 수정 ==//
-    public void changeSub(String subTitle, String subContent, String subService, int subCharge, String subPeriod, int subMemLimit){
+    public void changeSub(String subTitle, String subContent, String subService, int subCharge, int subMemLimit){
         this.title = subTitle;
         this.content = subContent;
         this.subService = subService;
         this.subCharge = subCharge;
-        this.subPeriod = subPeriod;
         this.subMemLimit = subMemLimit;
     }
 
-
+    /*
+//== 내용 수정 ==//
+    public void changeSub(String subTitle, String subContent, String subService, int subCharge, SubscriptionGroups subGroup){
+        this.title = subTitle;
+        this.content = subContent;
+        this.subService = subService;
+        this.subCharge = subCharge;
+        this.subGroup = subGroup;
+    }
+     */
 
 
 }
