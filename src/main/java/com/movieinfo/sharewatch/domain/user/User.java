@@ -86,10 +86,6 @@ public class User extends BaseTimeEntity {
         subList.add(sub);
     }
 
-    public void addReview(Review reivew){
-        reviewList.add(reivew);
-    }
-
     public User update(String name, String email, String imageUrl) {
         this.name = name;
         this.email=email;
