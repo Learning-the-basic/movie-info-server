@@ -1,5 +1,6 @@
 package com.movieinfo.sharewatch.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.config.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
@@ -57,12 +58,15 @@ public class User extends BaseTimeEntity {
     @Column(nullable = false)
     private Role role;
 
-    @ManyToOne
+
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subGroup_id")
     private SubscriptionGroup subGroup;
+
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<Subscription> subList = new ArrayList<>();
 
     @Builder
@@ -86,10 +90,6 @@ public class User extends BaseTimeEntity {
         subList.add(sub);
     }
 
-    public void addReview(Review reivew){
-        reviewList.add(reivew);
-    }
-
     public User update(String name, String email, String imageUrl) {
         this.name = name;
         this.email=email;
@@ -107,9 +107,12 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
+
     public void EnterSubGroup(SubscriptionGroup subGroup) {
         this.subGroup = subGroup;
         subGroup.addUser(this);
     }
+
+
 
 }

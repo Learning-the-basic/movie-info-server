@@ -1,6 +1,8 @@
 package com.movieinfo.sharewatch.domain.posts;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
+import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.user.User;
 import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
@@ -10,6 +12,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @NoArgsConstructor

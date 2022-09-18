@@ -50,16 +50,15 @@ public class SubscriptionService {
     }
 */
     @Transactional
-    public User selectSubscription(Long id) {
+    public SubscriptionDto selectSubscription(Long id) {
 
         Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
 
         // 조회수 업데이트
         sub.increaseCount();
         //subRepository.updateCount(id);
-        System.out.println("============================== count ======================== " + sub.getCount() + "====================");
 
-        return SubscriptionDto.toDto(sub).getSubGroupDto().getUserList().get(0);
+        return SubscriptionDto.toDto(sub);
     }
 
     @Transactional
@@ -75,7 +74,7 @@ public class SubscriptionService {
 
         sub.confirmWriter(user);
         sub.bindGroup(subGroup);
-
+        sub.increaseMemberCount();
         return subRepository.save(sub).getTitle();
     }
 
@@ -83,7 +82,7 @@ public class SubscriptionService {
 
         SubscriptionGroup subGroup = new SubscriptionGroup();
 
-        user.EnterSubGroup(subGroup);
+        subGroup.addUser(user);
         return subGroupRepository.save(subGroup).getSubGroupId();
     }
 
@@ -108,8 +107,23 @@ public class SubscriptionService {
 
     }
 
+    @Transactional
+    public SubscriptionGroup selectSubscriptionGroup(Long id) {
+        return subGroupRepository.findById(id).orElseThrow(RuntimeException::new);
+    }
+    @Transactional
+    public void insertSubscriptionGroup(Long id) {
 
-    public List<User> selectSubscriptionGroup(Long id) {
-        return subGroupRepository.findById(id).orElseThrow(RuntimeException::new).getUserList();
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
+
+        //SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(()-> new RuntimeException());
+
+        Optional<SubscriptionGroup> subGroup = Optional.ofNullable(subGroupRepository.findById(id).orElseThrow(RuntimeException::new));
+
+        if(subGroup.isPresent()){
+            SubscriptionGroup subscription = subGroup.get();
+            //user.EnterSubGroup(subscription);
+            subscription.addUser(user);
+        }
     }
 }

@@ -2,15 +2,13 @@ package com.movieinfo.sharewatch.domain.subscription;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.user.User;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -18,13 +16,23 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static javax.persistence.CascadeType.ALL;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder(builderClassName = "BaseBuilder", builderMethodName = "BaseBuilder")
 @DynamicInsert
-public class Subscription extends Posts {
+@ToString(exclude = "user")
+public class Subscription extends Posts{
+
+    /*
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "subscription_id")
+    private Long Id;
+*/
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -41,6 +49,7 @@ public class Subscription extends Posts {
     @Column(name = "sub_mem_count", columnDefinition = "integer default 1")       // 현제 구독 인원
     private Integer subMemCount;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subGroup_id")
     private SubscriptionGroup subGroup;
@@ -89,6 +98,9 @@ public class Subscription extends Posts {
         this.subMemLimit = subMemLimit;
     }
 
+    public void increaseMemberCount(){
+        this.subMemCount++;
+    }
     /*
 //== 내용 수정 ==//
     public void changeSub(String subTitle, String subContent, String subService, int subCharge, SubscriptionGroups subGroup){
