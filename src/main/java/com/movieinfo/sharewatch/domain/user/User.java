@@ -1,6 +1,5 @@
 package com.movieinfo.sharewatch.domain.user;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.config.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
@@ -63,7 +62,7 @@ public class User extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subGroup_id")
     private SubscriptionGroup subGroup;
-
+    
     @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
@@ -89,7 +88,7 @@ public class User extends BaseTimeEntity {
         //post의 writer 설정은 post에서 함
         subList.add(sub);
     }
-
+    
     public User update(String name, String email, String imageUrl) {
         this.name = name;
         this.email=email;
@@ -107,12 +106,10 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
-
+    
     public void EnterSubGroup(SubscriptionGroup subGroup) {
         this.subGroup = subGroup;
         subGroup.addUser(this);
     }
-
-
 
 }
