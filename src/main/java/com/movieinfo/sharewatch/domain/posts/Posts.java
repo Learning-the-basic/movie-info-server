@@ -1,29 +1,18 @@
 package com.movieinfo.sharewatch.domain.posts;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
-import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.user.User;
-import io.swagger.models.auth.In;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
-
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
-
-import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @DynamicInsert
-//@Entity
-//@Inheritance(strategy = InheritanceType.JOINED)
-//@DiscriminatorColumn // 하위 테이블의 구분 컬럼 생성(default = DTYPE)
 @MappedSuperclass
 public class Posts extends BaseTimeEntity {
 

@@ -1,17 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
-import com.movieinfo.sharewatch.service.PostsService;
-import com.movieinfo.sharewatch.web.dto.post.PostDto;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateRequest;
-import com.movieinfo.sharewatch.web.dto.post.PostUpdateResponse;
-import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
