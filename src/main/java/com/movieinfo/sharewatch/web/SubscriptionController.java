@@ -4,7 +4,6 @@ import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.service.SubscriptionService;
-import com.movieinfo.sharewatch.web.dto.post.PostsSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.TransactionManager;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -58,7 +58,8 @@ public class SubscriptionController {
     @ResponseStatus(HttpStatus.OK)
     public String selectSubscription(@PathVariable("id") Long post_id, Model model){
         model.addAttribute("subscription" , subService.selectSubscription(post_id));
-        return "subscription/view";
+        //return "subscription/view";
+        return subService.selectSubscription(post_id).toString();
     }
 
     //create
@@ -92,15 +93,22 @@ public class SubscriptionController {
     @ApiOperation(value = "그룹 맴버 조회", notes = "그룹을 조회한다")
     @GetMapping("/api/subscriptionGroup/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SubscriptionGroup selectSubscriptionGroup(@ApiParam(value = "그룹 id", required = true) @PathVariable("id") Long id) {
+    public List<User> selectSubscriptionGroup(@ApiParam(value = "그룹 id", required = true) @PathVariable("id") Long id) {
         return subService.selectSubscriptionGroup(id);
     }
 
     @ApiOperation(value = "그룹 가입", notes = "그룹에 가입한다.")
-    @PutMapping("/api/subscriptionGroup/{subGroup_id}")
+    @PutMapping("/api/subscriptionGroup/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void insertSubscriptionGroup(@ApiParam(value = "커뮤니티 그룹 id", required = true) @PathVariable("subGroup_id") Long id) {
-        subService.insertSubscriptionGroup(id);
+    public void insertSubscriptionGroupUser(@ApiParam(value = "커뮤니티 그룹 id", required = true) @PathVariable("id") Long id) {
+        subService.insertSubscriptionGroupUser(id);
+    }
+
+    @ApiOperation(value = "그룹 탈퇴", notes = "그룹에서 탈퇴한다.")
+    @PutMapping("/api/subscriptionGroup-exit/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<User> deleteSubscriptionGroupUser(@ApiParam(value = "커뮤니티 그룹 id", required = true) @PathVariable("id") Long id) {
+        return subService.deleteSubscriptionGroupUser(id);
     }
 
 

@@ -3,7 +3,6 @@ package com.movieinfo.sharewatch.web.dto.subscription;
 
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
-import com.movieinfo.sharewatch.web.dto.post.PostDto;
 import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
@@ -13,21 +12,39 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class SubscriptionDto extends PostDto{
+public class SubscriptionDto{
+
+    private Long id;
+
+    private String title;
+
+    private String content;
+
+    private Integer count;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime modifiedAt;
+
+    private UserDto userDto;
     private String subService;
     private int subCharge;
     private int subMemLimit;
     private int subMemCount;
 
     private SubScriptionGroupDto subGroupDto;
-    private int count;
     private Status status;
 
 
     @Builder
     public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
                            String subService, int subCharge, int subMemLimit,int subMemCount, SubScriptionGroupDto subGroupDto, int count, Status status){
-        super(id, title, content, createdAt, modifiedAt, userDto);
+        this.id = id;
+        this.title = title;
+        this.content = content;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.userDto = userDto;
         this.subService = subService;
         this.subCharge = subCharge;
         this.subMemLimit = subMemLimit;

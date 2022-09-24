@@ -1,5 +1,6 @@
 package com.movieinfo.sharewatch.service;
 
+import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroupRepository;
@@ -52,11 +53,11 @@ public class SubscriptionService {
     @Transactional
     public SubscriptionDto selectSubscription(Long id) {
 
-        Subscription sub = subRepository.findById(id).orElseThrow(RuntimeException::new);
+        Subscription sub = subRepository.selectSubscription(id);
 
         // 조회수 업데이트
-        sub.increaseCount();
-        //subRepository.updateCount(id);
+        //sub.increaseCount();
+        subRepository.updateCount(id);
 
         return SubscriptionDto.toDto(sub);
     }
@@ -108,22 +109,38 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public SubscriptionGroup selectSubscriptionGroup(Long id) {
-        return subGroupRepository.findById(id).orElseThrow(RuntimeException::new);
+    public List<User> selectSubscriptionGroup(Long id) {
+        return subGroupRepository.findById(id).orElseThrow(RuntimeException::new).getUserList();
     }
     @Transactional
-    public void insertSubscriptionGroup(Long id) {
-
+    public void insertSubscriptionGroupUser(Long id) {
+        System.out.println("=========================================   서비스는 찎냐?");
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
 
         //SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(()-> new RuntimeException());
 
         Optional<SubscriptionGroup> subGroup = Optional.ofNullable(subGroupRepository.findById(id).orElseThrow(RuntimeException::new));
-
+        System.out.println("==========================================   그룹 조회 끝");
         if(subGroup.isPresent()){
+            System.out.println(" ============================================ if문 입장");
             SubscriptionGroup subscription = subGroup.get();
             //user.EnterSubGroup(subscription);
             subscription.addUser(user);
+            subscription.getSubscription().increaseMemberCount();
+            System.out.println("================================================== 유저 등록 성공");
         }
+    }
+
+    public List<User> deleteSubscriptionGroupUser(Long id) {
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
+
+        SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(()-> new RuntimeException());
+        System.out.println(subGroup.getUserList());
+        subGroup.deleteUser(user);
+        //subGroup.getUserList().;
+
+
+        return subGroup.getUserList();
+
     }
 }

@@ -33,9 +33,10 @@ public class SubscriptionGroup {
     @OneToOne(mappedBy = "subGroup", cascade = ALL, orphanRemoval = true)
     private Subscription subscription;
 
-    public void addUser(User user){UserList.add(user);}
+    public void addUser(User user){UserList.add(user);
+        System.out.println("======================== 유저 등록 함수 실행");}
 
-    //public void deleteUser(User user){UserList.}
+    public void deleteUser(User user){UserList.remove(user);}
 
     public void addGroup(Subscription subscription) {
         this.subscription = subscription;
