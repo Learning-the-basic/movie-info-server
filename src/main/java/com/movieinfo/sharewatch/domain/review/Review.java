@@ -23,16 +23,16 @@ public class Review extends BaseTimeEntity {
     @JoinColumn(name = "user_id")
     private User user;//작성자 회원번호
 
-    @Column(name = "reftype", nullable = false)
+    @Column(name = "ref_type", nullable = false)
     private String reftype;//참조분류 (S:짧은글, L:긴글)
 
-    @Column(name = "refMNo", nullable = false)
+    @Column(name = "ref_m_no", nullable = false)
     private String refMNo;//참조 영화 번호
 
-    @Column(name = "movieScore", nullable = false)
+    @Column(name = "movie_score", nullable = false)
     private Double movieScore;//별점
 
-    @Column(name="reviewContent", nullable = false,columnDefinition = "TEXT")
+    @Column(name="review_content", nullable = false,columnDefinition = "TEXT")
     private String reviewContent;//리뷰 내용
 
     @Column(columnDefinition = "integer default 0")
