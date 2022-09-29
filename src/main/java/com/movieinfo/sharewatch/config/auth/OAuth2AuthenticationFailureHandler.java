@@ -1,18 +1,14 @@
 package com.movieinfo.sharewatch.config.auth;
 
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.movieinfo.sharewatch.config.auth.HttpCookieOAuth2AuthorizationRequestRepository;
 import com.movieinfo.sharewatch.util.CookieUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,15 +18,13 @@ import java.util.Map;
 
 import static com.movieinfo.sharewatch.config.auth.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
-
+@RequiredArgsConstructor
 @Component
 public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationFailureHandler {
-
-    @Autowired
-    HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
+    private final HttpCookieOAuth2AuthorizationRequestRepository httpCookieOAuth2AuthorizationRequestRepository;
 
     @Override
-    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
+    public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException{
         String targetUrl = CookieUtils.getCookie(request, REDIRECT_URI_PARAM_COOKIE_NAME)
                 .map(Cookie::getValue)
                 .orElse(("/"));
@@ -39,7 +33,6 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
                 .queryParam("error", exception.getLocalizedMessage())
                 .build().toUriString();
 
-        System.out.println("oauth fail!!!!!!!");
         exception.printStackTrace();
         writePrintErrorResponse(response, exception);
 
@@ -50,18 +43,13 @@ public class OAuth2AuthenticationFailureHandler extends SimpleUrlAuthenticationF
     private void writePrintErrorResponse(HttpServletResponse response, AuthenticationException exception) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-
             Map<String, Object> responseMap = new HashMap<>();
 
             String message = getExceptionMessage(exception);
 
-            System.out.println(message);
             responseMap.put("status", 401);
-
             responseMap.put("message", message);
-
             response.getOutputStream().println(objectMapper.writeValueAsString(responseMap));
-
         } catch (IOException e) {
             e.printStackTrace();
         }
