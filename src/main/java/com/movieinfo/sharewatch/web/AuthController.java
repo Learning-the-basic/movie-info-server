@@ -5,7 +5,6 @@ import com.movieinfo.sharewatch.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.user.Role;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
-import com.movieinfo.sharewatch.exception.BadRequestException;
 import com.movieinfo.sharewatch.web.dto.payload.ApiResponseDto;
 import com.movieinfo.sharewatch.web.dto.payload.AuthResponseDto;
 import com.movieinfo.sharewatch.web.dto.payload.LoginRequestDto;
@@ -58,7 +57,12 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
         if(userRepository.existsByEmail(signUpRequestDto.getEmail())) {
-            throw new BadRequestException("Email address already in use.");
+            URI location = ServletUriComponentsBuilder
+                    .fromCurrentContextPath().path("/user/me")
+                    .buildAndExpand().toUri();
+
+            return ResponseEntity.created(location)
+                    .body(new ApiResponseDto(false, "User already exist"));
         }
 
         // Creating user's account
