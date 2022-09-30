@@ -59,7 +59,6 @@ public class User extends BaseTimeEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subGroup_id")
     private SubscriptionGroup subGroup;
     
     @Builder.Default
