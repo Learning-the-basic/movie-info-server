@@ -24,13 +24,4 @@ public class PostsSaveRequestDto {
         this.content = content;
         this.status = status;
     }
-/*
-    public Posts toEntity(){
-        return Posts.builder()
-                .title(title)
-                .content(content)
-                .status(status)
-                .build();
-    }
-*/
 }
