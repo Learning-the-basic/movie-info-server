@@ -2,29 +2,25 @@ package com.movieinfo.sharewatch.web;
 
 import com.movieinfo.sharewatch.security.CurrentUser;
 import com.movieinfo.sharewatch.security.UserPrincipal;
-import com.movieinfo.sharewatch.domain.user.User;
-import com.movieinfo.sharewatch.domain.user.UserRepository;
-import com.movieinfo.sharewatch.exception.ResourceNotFoundException;
+import com.movieinfo.sharewatch.service.UserService;
 import com.movieinfo.sharewatch.web.dto.user.UserDto;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api(value = "User Controller", tags = "User")
+@RequiredArgsConstructor
 @RestController
 public class UserController {
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('USER')")
     public UserDto getCurrentUser(@CurrentUser UserPrincipal userPrincipal) {
         return UserDto.toDto(
-                userRepository.findById(userPrincipal.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userPrincipal.getId())
-                )
+                userService.findById(userPrincipal.getId())
         );
     }
 }

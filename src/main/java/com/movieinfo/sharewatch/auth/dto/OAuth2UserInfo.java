@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config.auth.dto;
+package com.movieinfo.sharewatch.auth.dto;
 import java.util.Map;
 
 public abstract class OAuth2UserInfo {

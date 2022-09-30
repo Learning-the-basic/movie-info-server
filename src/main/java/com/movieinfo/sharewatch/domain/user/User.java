@@ -1,9 +1,8 @@
 package com.movieinfo.sharewatch.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.movieinfo.sharewatch.config.auth.AuthProvider;
+import com.movieinfo.sharewatch.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
-import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.review.Review;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
@@ -60,7 +59,6 @@ public class User extends BaseTimeEntity {
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subGroup_id")
     private SubscriptionGroup subGroup;
     
     @Builder.Default
