@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config.auth;
+package com.movieinfo.sharewatch.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.movieinfo.sharewatch.util.CookieUtils;
@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.movieinfo.sharewatch.config.auth.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
+import static com.movieinfo.sharewatch.auth.HttpCookieOAuth2AuthorizationRequestRepository.REDIRECT_URI_PARAM_COOKIE_NAME;
 
 @RequiredArgsConstructor
 @Component

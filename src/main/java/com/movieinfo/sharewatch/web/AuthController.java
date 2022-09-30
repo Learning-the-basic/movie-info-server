@@ -1,7 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
 import com.movieinfo.sharewatch.security.TokenProvider;
-import com.movieinfo.sharewatch.config.auth.AuthProvider;
+import com.movieinfo.sharewatch.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.user.Role;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
