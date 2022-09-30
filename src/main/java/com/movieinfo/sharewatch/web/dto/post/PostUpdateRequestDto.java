@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Optional;
-
 @ApiModel(value = "게시글 수정 요청")
 @Data
 @NoArgsConstructor

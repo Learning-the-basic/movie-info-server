@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
-@AllArgsConstructor
 public class PostUpdateResponseDto {
+    private boolean success;
+    private String message;
 
-
-    private Long id;
-
-
+    public PostUpdateResponseDto(boolean success, String message) {
+        this.success = success;
+        this.message = message;
+    }
 
 }
