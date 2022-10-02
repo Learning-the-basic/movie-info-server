@@ -9,6 +9,7 @@ import lombok.*;
 
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -27,6 +28,7 @@ public class SubscriptionDto{
     private LocalDateTime modifiedAt;
 
     private UserDto userDto;
+    //private UserSubGroupDto userSubGroupDto;
     private String subService;
     private int subCharge;
     private int subMemLimit;
@@ -37,7 +39,7 @@ public class SubscriptionDto{
 
 
     @Builder
-    public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
+    public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,/*UserSubGroupDto userSubGroupDto,*/
                            String subService, int subCharge, int subMemLimit,int subMemCount, SubScriptionGroupDto subGroupDto, int count, Status status){
         this.id = id;
         this.title = title;
@@ -45,6 +47,7 @@ public class SubscriptionDto{
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.userDto = userDto;
+        //this.userSubGroupDto = userSubGroupDto;
         this.subService = subService;
         this.subCharge = subCharge;
         this.subMemLimit = subMemLimit;
@@ -54,21 +57,6 @@ public class SubscriptionDto{
         this.status = status;
 
     }
-     /*
-    @Builder
-    public SubscriptionDto(Long id, String title, String content, LocalDateTime createdAt, LocalDateTime modifiedAt, UserDto userDto,
-                           String subService, int subCharge, SubScriptionGroupDto subGroup, int count, Status status){
-        super(id, title, content, createdAt, modifiedAt, userDto);
-        this.subService = subService;
-        this.subCharge = subCharge;
-        this.subGroup = subGroup;
-        this.count = count;
-        this.status = status;
-
-    }
-
-      */
-
 
     public static SubscriptionDto toDto(Subscription sub){
        return new SubscriptionDto(
@@ -78,6 +66,7 @@ public class SubscriptionDto{
                sub.getCreatedDate(),
                sub.getModifiedDate(),
                UserDto.toDto(sub.getUser()),
+               //UserSubGroupDto.toDto(sub.get)
                sub.getSubService(),
                sub.getSubCharge(),
                sub.getSubMemLimit(),
@@ -91,7 +80,7 @@ public class SubscriptionDto{
 
     @Getter
     @Setter
-    public class SubSaveRequestDto{
+    public static class SubSaveRequestDto{
 
             private String title;
             private String content;
@@ -116,7 +105,7 @@ public class SubscriptionDto{
     @Setter
     @Getter
     @ApiModel(value = "커뮤니티 게시글 수정 요청")
-    public class SubUpdateRequestDto {
+    public static class SubUpdateRequestDto {
 
         private String title;
         private String content;

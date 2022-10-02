@@ -6,6 +6,7 @@ import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.review.Review;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
+import com.movieinfo.sharewatch.domain.subscription.UserSubGroup;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -57,10 +58,9 @@ public class User extends BaseTimeEntity {
     private Role role;
 
 
-//    @JsonIgnore
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "subGroup_id")
-//    private SubscriptionGroup subGroup;
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    private List<UserSubGroup> subGroup = new ArrayList<>();
 
     @Builder.Default
     @JsonIgnore
@@ -106,9 +106,13 @@ public class User extends BaseTimeEntity {
     }
 
 
-//    public void EnterSubGroup(SubscriptionGroup subGroup) {
+//    public void enterSubGroup(SubscriptionGroup subGroup) {
 //        this.subGroup = subGroup;
 //        subGroup.addUser(this);
 //    }
 
+    public void enterSubGroup(UserSubGroup us) {
+
+        subGroup.add(us);
+    }
 }

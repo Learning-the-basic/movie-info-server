@@ -1,22 +1,13 @@
 package com.movieinfo.sharewatch.domain.subscription;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.user.User;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import static javax.persistence.CascadeType.ALL;
 
 @Getter
 @NoArgsConstructor
@@ -44,6 +35,7 @@ public class Subscription extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(1) default 'Y'")
     private Status status;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -62,10 +54,8 @@ public class Subscription extends BaseTimeEntity {
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subGroup_id")
+    @JoinColumn(name = "sub_group_id")
     private SubscriptionGroup subGroup;
-
-
 
     @Builder(builderClassName = "PostBuilder", builderMethodName = "PostBuilder")
     public Subscription(User user, String title, String content, int count, Status status,
@@ -82,17 +72,6 @@ public class Subscription extends BaseTimeEntity {
         this.subGroup = subGroup;
     }
 
-    /*
-    @Builder(builderClassName = "PostBuilder", builderMethodName = "PostBuilder")
-    public Subscription(Long id, User user, String title, String content, int count, Status status,
-                        String subService, int subCharge, SubscriptionGroups subGroup){
-        super(id, user, title, content, count, status);
-        this.subCharge = subCharge;
-        this.subService = subService;
-        this.subGroup = subGroup;
-
-    }
-     */
     public void bindGroup(SubscriptionGroup subGroup) {
         this.subGroup = subGroup;
         subGroup.addGroup(this);
@@ -100,7 +79,7 @@ public class Subscription extends BaseTimeEntity {
 
 
     public void confirmWriter(User user) {
-        this.user = user;
+        //this.userList = user;
         user.addPost(this);
     }
 
@@ -117,16 +96,7 @@ public class Subscription extends BaseTimeEntity {
         this.subMemCount++;
         System.out.println(" ========================   조회수 증가 실행");
     }
-    /*
-//== 내용 수정 ==//
-    public void changeSub(String subTitle, String subContent, String subService, int subCharge, SubscriptionGroups subGroup){
-        this.title = subTitle;
-        this.content = subContent;
-        this.subService = subService;
-        this.subCharge = subCharge;
-        this.subGroup = subGroup;
-    }
-     */
+
     public void increaseCount() {
         this.count++;
     }
@@ -134,5 +104,10 @@ public class Subscription extends BaseTimeEntity {
     public void delete() {
         this.status = Status.N;
     }
+
+//    public void addUser(User user){userList.add(user);
+//        System.out.println("======================== 유저 등록 함수 실행");}
+//
+//    public void deleteUser(User user){userList.remove(user);}
 
 }

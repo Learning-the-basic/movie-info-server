@@ -1,10 +1,7 @@
 package com.movieinfo.sharewatch.service;
 
 import com.movieinfo.sharewatch.domain.posts.Status;
-import com.movieinfo.sharewatch.domain.subscription.Subscription;
-import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
-import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroupRepository;
-import com.movieinfo.sharewatch.domain.subscription.SubscriptionRepository;
+import com.movieinfo.sharewatch.domain.subscription.*;
 import com.movieinfo.sharewatch.domain.user.User;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
@@ -28,9 +25,11 @@ public class SubscriptionService {
 
     private final SubscriptionGroupRepository subGroupRepository;
 
+    private final UserSubGroupRepository userSubGroupRepository;
+
     @Transactional
     public Page<SubscriptionDto> selectSubscriptionList(int page) {
-
+        
         return subRepository.findAll(PageRequest.of(page, 3)).map(SubscriptionDto::toDto);
     }
 /*
@@ -51,9 +50,11 @@ public class SubscriptionService {
     }
 */
     @Transactional
-    public SubscriptionDto selectSubscription(Long id) {
+    public SubscriptionDto selectSubscription(Long id){
 
-        Subscription sub = subRepository.selectSubscription(id);
+        //Subscription sub = subRepository.findById(id).orElseThrow(()-> new RuntimeException("찾고자 하는 게시글이 없습니다."));
+        Status status = Status.Y;
+        Subscription sub = subRepository.findByStatus(status);
 
         // 조회수 업데이트
         //sub.increaseCount();
@@ -62,12 +63,30 @@ public class SubscriptionService {
         return SubscriptionDto.toDto(sub);
     }
 
+//    @Transactional
+//    public String createSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
+//
+//        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
+//
+//        Long groupId = createSubGroup(user);
+//
+//        SubscriptionGroup subGroup = subGroupRepository.findById(groupId).orElseThrow(()-> new RuntimeException());
+//
+//        Subscription sub = subRequestDto.toEntity();
+//
+//        sub.confirmWriter(user);
+//        sub.bindGroup(subGroup);
+//        //user.enterSubGroup(subGroup);
+//        sub.increaseMemberCount();
+//        return subRepository.save(sub).getTitle();
+//    }
+
     @Transactional
     public String createSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
 
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
 
-        Long groupId = createSubGroup(user);
+        Long groupId = createSubGroup();
 
         SubscriptionGroup subGroup = subGroupRepository.findById(groupId).orElseThrow(()-> new RuntimeException());
 
@@ -75,18 +94,38 @@ public class SubscriptionService {
 
         sub.confirmWriter(user);
         sub.bindGroup(subGroup);
+        //user.enterSubGroup(subGroup);
+        mappingUserAndGroup(user, subGroup);
         sub.increaseMemberCount();
-        return subRepository.save(sub).getTitle();
+        return subRepository.save(sub).getUser().toString();
     }
 
-    private Long createSubGroup(User user) {
+    private void mappingUserAndGroup(User user, SubscriptionGroup subGroup) {
+
+        UserSubGroup us = new UserSubGroup();
+        us.mappingUserAndGroup(user, subGroup);
+
+        userSubGroupRepository.save(us);
+    }
+
+
+//    @Transactional
+//    public Long createSubGroup(User user) {
+//
+//        SubscriptionGroup subGroup = new SubscriptionGroup();
+//
+//        user.enterSubGroup(subGroup);
+//        subGroup.addUser(user);
+//        return subGroupRepository.save(subGroup).getSubGroupId();
+//    }
+
+        @Transactional
+    public Long createSubGroup() {
 
         SubscriptionGroup subGroup = new SubscriptionGroup();
 
-        subGroup.addUser(user);
         return subGroupRepository.save(subGroup).getSubGroupId();
     }
-
 
     @Transactional
     public void updateSubscription(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
@@ -108,39 +147,40 @@ public class SubscriptionService {
 
     }
 
-    @Transactional
-    public List<User> selectSubscriptionGroup(Long id) {
-        return subGroupRepository.findById(id).orElseThrow(RuntimeException::new).getUserList();
-    }
+//    @Transactional
+//    public List<User> selectSubscriptionGroup(Long id) {
+//        return subGroupRepository.findById(id).orElseThrow(RuntimeException::new).getUserList();
+//    }
     @Transactional
     public void insertSubscriptionGroupUser(Long id) {
-        System.out.println("=========================================   서비스는 찎냐?");
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
 
-        //SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(()-> new RuntimeException());
-
         Optional<SubscriptionGroup> subGroup = Optional.ofNullable(subGroupRepository.findById(id).orElseThrow(RuntimeException::new));
-        System.out.println("==========================================   그룹 조회 끝");
         if(subGroup.isPresent()){
-            System.out.println(" ============================================ if문 입장");
+
             SubscriptionGroup subscription = subGroup.get();
+
             //user.EnterSubGroup(subscription);
-            subscription.addUser(user);
+            //subscription.addUser(user);
+
+            mappingUserAndGroup(user, subscription);
+
             subscription.getSubscription().increaseMemberCount();
-            System.out.println("================================================== 유저 등록 성공");
         }
     }
 
-    public List<User> deleteSubscriptionGroupUser(Long id) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
 
-        SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(()-> new RuntimeException());
-        System.out.println(subGroup.getUserList());
-        subGroup.deleteUser(user);
-        //subGroup.getUserList().;
+//    @Transactional
+//    public List<User> deleteSubscriptionGroupUser(Long id) {
+//        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
+//
+//        SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(()-> new RuntimeException());
+//        System.out.println(subGroup.getUserList());
+//        subGroup.deleteUser(user);
+//
+//        return subGroup.getUserList();
+//
+//    }
 
 
-        return subGroup.getUserList();
-
-    }
 }

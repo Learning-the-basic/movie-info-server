@@ -1,8 +1,6 @@
 package com.movieinfo.sharewatch.domain.subscription;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.movieinfo.sharewatch.domain.review.Review;
 import com.movieinfo.sharewatch.domain.user.User;
 import lombok.*;
 
@@ -17,26 +15,32 @@ import static javax.persistence.CascadeType.ALL;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "subscriptionGroup")
 public class SubscriptionGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subGroup_id")
+    @Column(name = "sub_group_id")
     private Long subGroupId;
 
-    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private List<User> UserList = new ArrayList<>();
+    @JsonIgnore
+    @OneToMany(mappedBy = "subGroup")
+    private List<UserSubGroup> userList = new ArrayList<>();
+
+//    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "user_id")
+//    private List<User> userList = new ArrayList<>();
 
     @JsonIgnore
-    @OneToOne(mappedBy = "subGroup", cascade = ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "subGroup", cascade = ALL)
     private Subscription subscription;
 
-    public void addUser(User user){UserList.add(user);
+//    public void addUser(User user){userList.add(user);
+//        System.out.println("======================== 유저 등록 함수 실행");}
+
+    public void addUser(UserSubGroup us){userList.add(us);
         System.out.println("======================== 유저 등록 함수 실행");}
 
-    public void deleteUser(User user){UserList.remove(user);}
+    //public void deleteUser(User user){UserList.remove(user);}
 
     public void addGroup(Subscription subscription) {
         this.subscription = subscription;
