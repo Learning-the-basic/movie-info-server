@@ -1,12 +1,12 @@
 package com.movieinfo.sharewatch.domain.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.movieinfo.sharewatch.config.auth.AuthProvider;
+import com.movieinfo.sharewatch.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
-import com.movieinfo.sharewatch.domain.posts.Posts;
 import com.movieinfo.sharewatch.domain.review.Review;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
 import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
+import com.movieinfo.sharewatch.domain.subscription.UserSubGroup;
 import com.sun.istack.NotNull;
 import lombok.*;
 
@@ -58,13 +58,10 @@ public class User extends BaseTimeEntity {
     private Role role;
 
 
-    @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "subGroup_id")
-    private SubscriptionGroup subGroup;
-    
-    @Builder.Default
-    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
+    private List<UserSubGroup> subGroup = new ArrayList<>();
+
+
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<Subscription> subList = new ArrayList<>();
 
@@ -88,7 +85,7 @@ public class User extends BaseTimeEntity {
         //post의 writer 설정은 post에서 함
         subList.add(sub);
     }
-    
+
     public User update(String name, String email, String imageUrl) {
         this.name = name;
         this.email=email;
@@ -104,12 +101,6 @@ public class User extends BaseTimeEntity {
 
     public String getRoleKey() {
         return this.role.getKey();
-    }
-
-    
-    public void EnterSubGroup(SubscriptionGroup subGroup) {
-        this.subGroup = subGroup;
-        subGroup.addUser(this);
     }
 
 }
