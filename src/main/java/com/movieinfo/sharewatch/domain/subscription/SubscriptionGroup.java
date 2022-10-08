@@ -1,8 +1,6 @@
 package com.movieinfo.sharewatch.domain.subscription;
 
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.movieinfo.sharewatch.domain.review.Review;
 import com.movieinfo.sharewatch.domain.user.User;
 import lombok.*;
 
@@ -17,27 +15,23 @@ import static javax.persistence.CascadeType.ALL;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "subscriptionGroup")
 public class SubscriptionGroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "subGroup_id")
+    @Column(name = "sub_group_id")
     private Long subGroupId;
 
-    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
-    private List<User> UserList = new ArrayList<>();
+    @OneToMany(mappedBy = "subGroup")
+    private List<UserSubGroup> userList = new ArrayList<>();
 
     @JsonIgnore
     @OneToOne(mappedBy = "subGroup", cascade = ALL, orphanRemoval = true)
     private Subscription subscription;
 
-    public void addUser(User user){UserList.add(user);}
-
-    //public void deleteUser(User user){UserList.}
-
-    public void addGroup(Subscription subscription) {
+    public void addPost(Subscription subscription) {
         this.subscription = subscription;
     }
+
+
 }
