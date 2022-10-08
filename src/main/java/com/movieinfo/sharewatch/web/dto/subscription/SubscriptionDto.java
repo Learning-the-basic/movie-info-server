@@ -28,7 +28,8 @@ public class SubscriptionDto{
     private LocalDateTime modifiedAt;
 
     private UserDto userDto;
-    //private UserSubGroupDto userSubGroupDto;
+
+    private List<UserSubGroupDto> userSubGroupList;
     private String subService;
     private int subCharge;
     private int subMemLimit;
@@ -66,7 +67,7 @@ public class SubscriptionDto{
                sub.getCreatedDate(),
                sub.getModifiedDate(),
                UserDto.toDto(sub.getUser()),
-               //UserSubGroupDto.toDto(sub.get)
+               //UserSubGroupDto.toDto(sub.getSubGroup().getUserList(), sub.getUser().getSubGroup()),
                sub.getSubService(),
                sub.getSubCharge(),
                sub.getSubMemLimit(),

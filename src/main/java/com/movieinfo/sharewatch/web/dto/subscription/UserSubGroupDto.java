@@ -2,22 +2,30 @@ package com.movieinfo.sharewatch.web.dto.subscription;
 
 import com.movieinfo.sharewatch.domain.subscription.UserSubGroup;
 import com.movieinfo.sharewatch.web.dto.user.UserDto;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class UserSubGroupDto {
+
+    private Long id;
 
     private UserDto user;
 
-    private SubScriptionGroupDto subGroupDto;
+    private SubScriptionGroupDto subGroup;
 
-    public UserSubGroupDto toDto(UserSubGroup userSubGroup){
-        return new UserSubGroupDto(UserDto.toDto(userSubGroup.getUser())
+    public static UserSubGroupDto toDto(UserSubGroup userSubGroup){
+        return new UserSubGroupDto(userSubGroup.getId(), UserDto.toDto(userSubGroup.getUser())
                    , SubScriptionGroupDto.toDto(userSubGroup.getSubGroup()));
     }
+
+
+
+//    public static Object toDto(List<UserSubGroup> userList, List<UserSubGroup> subGroup) {
+//        return new UserSubGroupDto[]()
+//    }
 }

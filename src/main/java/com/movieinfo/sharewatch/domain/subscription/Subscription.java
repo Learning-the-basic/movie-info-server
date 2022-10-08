@@ -14,14 +14,13 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Entity
 @DynamicInsert
-@Builder(builderClassName = "BaseBuilder", builderMethodName = "BaseBuilder")
 @ToString(exclude = "user")
 public class Subscription extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sub_id")
-    private Long Id;
+    private Long id;
 
     @Column(length = 255,nullable = false, name = "sub_title")
     protected String title;
@@ -51,8 +50,7 @@ public class Subscription extends BaseTimeEntity {
 
     @Column(name = "sub_mem_count")       // 현제 구독 인원
     private Integer subMemCount;
-
-    @JsonIgnore
+    
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_group_id")
     private SubscriptionGroup subGroup;
@@ -74,12 +72,12 @@ public class Subscription extends BaseTimeEntity {
 
     public void bindGroup(SubscriptionGroup subGroup) {
         this.subGroup = subGroup;
-        subGroup.addGroup(this);
+        subGroup.addPost(this);
     }
 
 
     public void confirmWriter(User user) {
-        //this.userList = user;
+        this.user = user;
         user.addPost(this);
     }
 
@@ -94,7 +92,6 @@ public class Subscription extends BaseTimeEntity {
 
     public void increaseMemberCount(){
         this.subMemCount++;
-        System.out.println(" ========================   조회수 증가 실행");
     }
 
     public void increaseCount() {
@@ -104,10 +101,5 @@ public class Subscription extends BaseTimeEntity {
     public void delete() {
         this.status = Status.N;
     }
-
-//    public void addUser(User user){userList.add(user);
-//        System.out.println("======================== 유저 등록 함수 실행");}
-//
-//    public void deleteUser(User user){userList.remove(user);}
 
 }

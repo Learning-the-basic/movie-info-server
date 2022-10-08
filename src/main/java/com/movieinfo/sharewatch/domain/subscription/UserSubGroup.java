@@ -2,6 +2,7 @@ package com.movieinfo.sharewatch.domain.subscription;
 
 import com.movieinfo.sharewatch.domain.user.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class UserSubGroup {
 
     @Id
@@ -29,4 +31,5 @@ public class UserSubGroup {
         this.user = user;
         this.subGroup = subGroup;
     }
+
 }

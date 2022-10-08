@@ -58,12 +58,10 @@ public class User extends BaseTimeEntity {
     private Role role;
 
 
-    @JsonIgnore
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<UserSubGroup> subGroup = new ArrayList<>();
 
-    @Builder.Default
-    @JsonIgnore
+
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
     private List<Subscription> subList = new ArrayList<>();
 
@@ -105,14 +103,4 @@ public class User extends BaseTimeEntity {
         return this.role.getKey();
     }
 
-
-//    public void enterSubGroup(SubscriptionGroup subGroup) {
-//        this.subGroup = subGroup;
-//        subGroup.addUser(this);
-//    }
-
-    public void enterSubGroup(UserSubGroup us) {
-
-        subGroup.add(us);
-    }
 }

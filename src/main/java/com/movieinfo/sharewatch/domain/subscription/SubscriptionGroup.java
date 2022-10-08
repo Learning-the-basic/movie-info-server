@@ -22,27 +22,16 @@ public class SubscriptionGroup {
     @Column(name = "sub_group_id")
     private Long subGroupId;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "subGroup")
     private List<UserSubGroup> userList = new ArrayList<>();
 
-//    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
-//    @JoinColumn(name = "user_id")
-//    private List<User> userList = new ArrayList<>();
-
     @JsonIgnore
-    @OneToOne(mappedBy = "subGroup", cascade = ALL)
+    @OneToOne(mappedBy = "subGroup", cascade = ALL, orphanRemoval = true)
     private Subscription subscription;
 
-//    public void addUser(User user){userList.add(user);
-//        System.out.println("======================== 유저 등록 함수 실행");}
-
-    public void addUser(UserSubGroup us){userList.add(us);
-        System.out.println("======================== 유저 등록 함수 실행");}
-
-    //public void deleteUser(User user){UserList.remove(user);}
-
-    public void addGroup(Subscription subscription) {
+    public void addPost(Subscription subscription) {
         this.subscription = subscription;
     }
+
+
 }
