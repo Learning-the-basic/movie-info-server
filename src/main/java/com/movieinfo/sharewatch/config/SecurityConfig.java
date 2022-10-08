@@ -2,16 +2,15 @@ package com.movieinfo.sharewatch.config;
 
 
 import com.movieinfo.sharewatch.service.CustomOAuth2UserService;
-import com.movieinfo.sharewatch.config.auth.HttpCookieOAuth2AuthorizationRequestRepository;
-import com.movieinfo.sharewatch.config.auth.OAuth2AuthenticationFailureHandler;
-import com.movieinfo.sharewatch.config.auth.OAuth2AuthenticationSuccessHandler;
+import com.movieinfo.sharewatch.auth.HttpCookieOAuth2AuthorizationRequestRepository;
+import com.movieinfo.sharewatch.auth.OAuth2AuthenticationFailureHandler;
+import com.movieinfo.sharewatch.auth.OAuth2AuthenticationSuccessHandler;
 import com.movieinfo.sharewatch.service.CustomUserDetailsService;
 import com.movieinfo.sharewatch.security.TokenAuthenticationFilter;
 import com.movieinfo.sharewatch.domain.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.BeanIds;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;

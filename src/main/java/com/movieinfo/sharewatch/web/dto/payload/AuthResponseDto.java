@@ -1,14 +1,13 @@
 package com.movieinfo.sharewatch.web.dto.payload;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-public class AuthResponse {
+public class AuthResponseDto {
     private String accessToken;
     private String tokenType = "Bearer";
 
-    public AuthResponse(String accessToken) {
+    public AuthResponseDto(String accessToken) {
         this.accessToken = accessToken;
     }
 

@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config.auth;
+package com.movieinfo.sharewatch.auth;
 
 import com.movieinfo.sharewatch.util.CookieUtils;
 import com.nimbusds.oauth2.sdk.util.StringUtils;

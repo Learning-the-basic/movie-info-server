@@ -1,4 +1,4 @@
-package com.movieinfo.sharewatch.config.auth;
+package com.movieinfo.sharewatch.auth;
 
 public enum AuthProvider {
     local,
