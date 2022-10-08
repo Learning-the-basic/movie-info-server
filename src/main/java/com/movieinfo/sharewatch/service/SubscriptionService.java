@@ -63,6 +63,7 @@ public class SubscriptionService {
 
         Long groupId = createSubGroup();
 
+
         SubscriptionGroup subGroup = subGroupRepository.findById(groupId).orElseThrow(()-> new RuntimeException());
 
         Subscription sub = subRequestDto.toEntity();
