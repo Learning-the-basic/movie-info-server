@@ -35,24 +35,19 @@ public class ReviewService {
     }
 
     @Transactional
-    public Boolean deleteReview(Long id) {
+    public void deleteReview(Long id) {
         Optional<Review> review = reviewRepository.findById(id);
         if (review.isPresent()) {
             reviewRepository.delete(review.get());
         }
-        return true;
     }
 
     @Transactional
     public ReivewUpdateResponse updateReview(Long id, ReviewUpdateResponse ruq) {
         Review review = reviewRepository.findById(id).orElseThrow(RuntimeException::new);
 
-        //이부분 다시 체크 필요!!
-        //리뷰 내용
         ruq.getReviewContent().ifPresent(review::updateReview);
-        //리뷰 별점
         ruq.getMovieScore().ifPresent(review::updateMovieScore);
-        //리뷰 타입
         ruq.getReftype().ifPresent(review::updateRefType);
 
         return new ReivewUpdateResponse(id);
@@ -82,27 +77,6 @@ public class ReviewService {
     }
 
     @Transactional
-    /*public List<ReviewDto> selectReviewAll(){
-
-        List<Review> reviews = reviewRepository.findAll();
-
-        List<ReviewDto> reviewDtoList = new ArrayList<>();
-
-        for(Review review : reviews){
-            ReviewDto dto = ReviewDto.builder()
-                    .reviewId(review.getReviewId())
-                    .reftype(review.getReftype())
-                    .refMNo(review.getRefMNo())
-                    .movieScore(review.getMovieScore())
-                    .reviewContent(review.getReviewContent())
-                    .count(review.getCount())
-                    .user(UserDto.toDto(review.getUser()))
-                    .createdAt(review.getCreatedDate())
-                    .build();
-            reviewDtoList.add(dto);
-        }
-        return reviewDtoList;
-    }*/
     public Page<ReviewDto> selectReviewList(int page){
 
         return reviewRepository.findAll(PageRequest.of(page,5, Sort.by(Sort.Direction.DESC,"reviewId"))).map(ReviewDto::toDto);
