@@ -5,7 +5,6 @@ import com.movieinfo.sharewatch.domain.review.ReviewRepository;
 import com.movieinfo.sharewatch.domain.user.UserRepository;
 import com.movieinfo.sharewatch.exception.user.UserException;
 import com.movieinfo.sharewatch.util.SecurityUtil;
-import com.movieinfo.sharewatch.web.dto.review.ReivewUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.review.ReviewDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewUpdateResponse;
@@ -28,7 +27,7 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public  Long saveReview(ReviewSaveRequestDto reviewSaveRequestDto){
+    public  Long createReview(ReviewSaveRequestDto reviewSaveRequestDto){
         Review review = reviewSaveRequestDto.toEntity();
         review.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException("use not found")));
         return reviewRepository.save(review).getReviewId();
@@ -43,14 +42,18 @@ public class ReviewService {
     }
 
     @Transactional
-    public ReivewUpdateResponse updateReview(Long id, ReviewUpdateResponse ruq) {
-        Review review = reviewRepository.findById(id).orElseThrow(RuntimeException::new);
+    public void updateReview(Long id, ReviewUpdateResponse ruq) {
+        Optional<Review> review = Optional.ofNullable(reviewRepository.findById(id).orElseThrow(RuntimeException::new));
 
-        ruq.getReviewContent().ifPresent(review::updateReview);
-        ruq.getMovieScore().ifPresent(review::updateMovieScore);
-        ruq.getReftype().ifPresent(review::updateRefType);
+        if(review.isPresent()){
 
-        return new ReivewUpdateResponse(id);
+            Review changeReview = review.get();
+
+            changeReview.updateReview(ruq.getReviewContent());
+            changeReview.updateMovieScore(ruq.getMovieScore());
+            changeReview.updateRefType(ruq.getReftype());
+
+        }
     }
     @Transactional
     public ReviewDto read(long id) {
@@ -110,4 +113,5 @@ public class ReviewService {
         }
         return reviewDtoList;
     }
+
 }

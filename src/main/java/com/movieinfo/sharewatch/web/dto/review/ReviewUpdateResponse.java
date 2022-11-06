@@ -13,13 +13,19 @@ import java.util.Optional;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewUpdateResponse {
-    @ApiModelProperty(value = "리뷰 내용", notes = "리뷰 내용을 입력해주세요", required = true, example = "review content")
-    private Optional<String> reviewContent;
-
-    @ApiModelProperty(value = "리뷰 별점", notes = "리뷰 별점을 입력해주세요", required = true, example = "review movieScore")
-    private Optional<Double> movieScore;
-
-    @ApiModelProperty(value = "리뷰 타입", notes = "리뷰 리뷰을 입력해주세요", required = true, example = "review refType")
-    private Optional<String> reftype;
+    
+    private Long id;
+    private String reviewContent;
+    private Double movieScore;
+    private String reftype;
+    
+//    @ApiModelProperty(value = "리뷰 내용", notes = "리뷰 내용을 입력해주세요", required = true, example = "review content")
+//    private Optional<String> reviewContent;
+//
+//    @ApiModelProperty(value = "리뷰 별점", notes = "리뷰 별점을 입력해주세요", required = true, example = "review movieScore")
+//    private Optional<Double> movieScore;
+//
+//    @ApiModelProperty(value = "리뷰 타입", notes = "리뷰 리뷰을 입력해주세요", required = true, example = "review refType")
+//    private Optional<String> reftype;
 
 }
