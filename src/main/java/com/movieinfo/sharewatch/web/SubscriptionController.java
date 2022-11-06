@@ -64,12 +64,12 @@ public class SubscriptionController {
     @ApiOperation(value = "커뮤니티 게시글 수정", notes = "커뮤니티 게시글을 수정한다.")
     @PutMapping("/subscription-update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public SubscriptionDto updateSubscription(
+    public String updateSubscription(
             @ApiParam(value = "게시글 id", required = true) @PathVariable Long id,
             @Valid @ModelAttribute SubscriptionDto.SubUpdateRequestDto subReq
     ) {
         subService.updateSubscription(id, subReq);
-        return subService.selectSubscription(id);
+        return "subscription/community";
     }
 
     //delete

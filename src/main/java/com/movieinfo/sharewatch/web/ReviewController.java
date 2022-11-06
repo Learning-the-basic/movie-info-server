@@ -1,7 +1,6 @@
 package com.movieinfo.sharewatch.web;
 
 import com.movieinfo.sharewatch.service.ReviewService;
-import com.movieinfo.sharewatch.web.dto.review.ReivewUpdateResponse;
 import com.movieinfo.sharewatch.web.dto.review.ReviewDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewSaveRequestDto;
 import com.movieinfo.sharewatch.web.dto.review.ReviewUpdateResponse;
@@ -26,8 +25,8 @@ public class ReviewController {
     @ApiOperation(value="리뷰 생성", notes = "리뷰를 생성한다.")
     @PostMapping("/review")
     @ResponseStatus(HttpStatus.CREATED)
-    public Long saveReview(@Valid @ModelAttribute ReviewSaveRequestDto review){
-        return reviewService.saveReview(review);
+    public Long createReview(@Valid @ModelAttribute ReviewSaveRequestDto review){
+        return reviewService.createReview(review);
     }
 
     @ApiOperation(value = "리뷰 삭제", notes = "리뷰을 삭제한다.")
@@ -40,9 +39,10 @@ public class ReviewController {
     @ApiOperation(value = "리뷰 수정", notes = "리뷰를 수정한다.")
     @PutMapping("/update/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public ReivewUpdateResponse updateReview(@ApiParam(value = "리뷰 id", required = true) @PathVariable Long id,
-                                                                  @Valid @ModelAttribute ReviewUpdateResponse  reviewUpdate){
-        return reviewService.updateReview(id,reviewUpdate);
+    public ReviewDto updateReview(@ApiParam(value = "리뷰 id", required = true) @PathVariable Long id,
+                                             @Valid @ModelAttribute ReviewUpdateResponse  reviewUpdate) {
+        reviewService.updateReview(id,reviewUpdate);
+        return reviewService.read(id);
     }
 
     @ApiOperation(value = "리뷰 조회", notes = "리뷰를 조회한다.")
