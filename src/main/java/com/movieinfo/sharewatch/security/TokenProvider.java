@@ -12,9 +12,7 @@ import java.util.Date;
 
 @Service
 public class TokenProvider {
-
     private static final Logger logger = LoggerFactory.getLogger(TokenProvider.class);
-
     private AppProperties appProperties;
 
     public TokenProvider(AppProperties appProperties) {
@@ -23,7 +21,6 @@ public class TokenProvider {
 
     public String createToken(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + appProperties.getAuth().getTokenExpirationMsec());
 
