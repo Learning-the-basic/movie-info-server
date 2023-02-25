@@ -64,7 +64,7 @@ public class SubscriptionService {
     @Transactional
     public String createSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
 
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(UserException::new);
 
         Long groupId = createSubGroup(user);
 
