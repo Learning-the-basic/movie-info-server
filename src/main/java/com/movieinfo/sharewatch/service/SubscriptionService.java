@@ -62,7 +62,7 @@ public class SubscriptionService {
 
         Long groupId = createSubGroup();
 
-        SubscriptionGroup subGroup = subGroupRepository.findById(groupId).orElseThrow(() -> new RuntimeException());
+        SubscriptionGroup subGroup = subGroupRepository.findById(groupId).orElseThrow(RuntimeException::new);
 
         Subscription sub = subRequestDto.toEntity();
 
@@ -113,7 +113,7 @@ public class SubscriptionService {
 
     @Transactional
     public void insertSubscriptionGroupUser(Long id) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(() -> new UserException());
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(UserException::new);
 
         Optional<SubscriptionGroup> subGroup = Optional.ofNullable(subGroupRepository.findById(id).orElseThrow(RuntimeException::new));
         if (subGroup.isPresent()) {
@@ -129,9 +129,9 @@ public class SubscriptionService {
 
     @Transactional
     public void deleteUserAndGroup(Long id) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(() -> new UserException());
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(UserException::new);
 
-        SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(() -> new RuntimeException());
+        SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(RuntimeException::new);
 
         UserSubGroup userSubGroup = new UserSubGroup();
 
