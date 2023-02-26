@@ -8,10 +8,12 @@
 <body>
 
 <div class="col">
-    <a href="/oauth2/authorization/google" class="btn btn-success active"  th:if="${username == null}"role="button">Google Login</a>
+    <a href="/oauth2/authorization/google" class="btn btn-success active" th:if="${username == null}" role="button">Google
+        Login</a>
 </div>
 <div class="col">
-    <img th:src="${image}"><p class="text-right" th:if="${username != null}" th:text="${username} + '님, 안녕하세요!'"></p>
+    <img th:src="${image}">
+    <p class="text-right" th:if="${username != null}" th:text="${username} + '님, 안녕하세요!'"></p>
     <a href="/posts/save" role="button" class="btn btn-primary">글 등록</a>
 </div>
 
