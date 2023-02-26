@@ -27,9 +27,9 @@ public class ReviewService {
     private final ReviewRepository reviewRepository;
 
     @Transactional
-    public  Long createReview(ReviewSaveRequestDto reviewSaveRequestDto){
+    public Long createReview(ReviewSaveRequestDto reviewSaveRequestDto) {
         Review review = reviewSaveRequestDto.toEntity();
-        review.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException("use not found")));
+        review.confirmWriter(userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(() -> new UserException("use not found")));
         return reviewRepository.save(review).getReviewId();
     }
 
@@ -45,22 +45,23 @@ public class ReviewService {
     public void updateReview(Long id, ReviewUpdateResponse ruq) {
         Optional<Review> review = Optional.ofNullable(reviewRepository.findById(id).orElseThrow(RuntimeException::new));
 
-        if(review.isPresent()){
+        if (review.isPresent()) {
 
             Review changeReview = review.get();
 
             changeReview.updateReview(ruq.getReviewContent());
             changeReview.updateMovieScore(ruq.getMovieScore());
-            changeReview.updateRefType(ruq.getReftype());
+            changeReview.updateRefType(ruq.getRefType());
 
         }
     }
+
     @Transactional
     public ReviewDto read(long id) {
 
-        Optional<Review> entity = reviewRepository.findById((long)id);
+        Optional<Review> entity = reviewRepository.findById((long) id);
 
-        if(entity.isPresent()){
+        if (entity.isPresent()) {
             Review review = entity.get();
             ReviewDto reviewDto = ReviewDto.builder()
                     .reviewId(review.getReviewId())
@@ -80,21 +81,21 @@ public class ReviewService {
     }
 
     @Transactional
-    public Page<ReviewDto> selectReviewList(int page){
+    public Page<ReviewDto> selectReviewList(int page) {
 
-        return reviewRepository.findAll(PageRequest.of(page,5, Sort.by(Sort.Direction.DESC,"reviewId"))).map(ReviewDto::toDto);
+        return reviewRepository.findAll(PageRequest.of(page, 5, Sort.by(Sort.Direction.DESC, "reviewId"))).map(ReviewDto::toDto);
     }
 
     @Transactional
-    public List<ReviewDto> selectReviewAllMy(String movieMn){
+    public List<ReviewDto> selectReviewAllMy(String movieMn) {
 
         List<Review> reviews = reviewRepository.findAll();
 
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
         String movieMninfo = movieMn;
-        for(Review review : reviews){
-            if(review.getRefMNo().equals(movieMninfo)) {
+        for (Review review : reviews) {
+            if (review.getRefMNo().equals(movieMninfo)) {
                 ReviewDto dto = ReviewDto.builder()
                         .reviewId(review.getReviewId())
                         .reftype(review.getReftype())
@@ -106,7 +107,7 @@ public class ReviewService {
                         .createdAt(review.getCreatedDate())
                         .build();
                 reviewDtoList.add(dto);
-            }else{
+            } else {
                 continue;
             }
 
