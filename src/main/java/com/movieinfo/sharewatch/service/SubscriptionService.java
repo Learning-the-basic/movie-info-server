@@ -133,9 +133,7 @@ public class SubscriptionService {
 
         SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(RuntimeException::new);
 
-        UserSubGroup userSubGroup = new UserSubGroup();
-
-        userSubGroup = userSubGroupRepository.findByUserAndSubGroup(user, subGroup);
+        UserSubGroup userSubGroup = userSubGroupRepository.findByUserAndSubGroup(user, subGroup);
 
         userSubGroupRepository.delete(userSubGroup);
 
