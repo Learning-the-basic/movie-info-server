@@ -1,9 +1,9 @@
-package com.movieinfo.sharewatch.config.auth;
+package com.movieinfo.sharewatch.auth;
 
 
 
-import com.movieinfo.sharewatch.config.auth.dto.GoogleOAuth2UserInfo;
-import com.movieinfo.sharewatch.config.auth.dto.OAuth2UserInfo;
+import com.movieinfo.sharewatch.auth.dto.GoogleOAuth2UserInfo;
+import com.movieinfo.sharewatch.auth.dto.OAuth2UserInfo;
 import com.movieinfo.sharewatch.exception.OAuth2AuthenticationProcessingException;
 
 import java.util.Map;

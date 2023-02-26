@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 @Getter
 @NoArgsConstructor
-public class SignUpRequest {
+public class SignUpRequestDto {
     @NotBlank
     private String name;
 
@@ -21,7 +21,7 @@ public class SignUpRequest {
     private String password;
 
     @Builder
-    public SignUpRequest(String name, String email, String password) {
+    public SignUpRequestDto(String name, String email, String password) {
         this.name = name;
         this.email = email;
         this.password = password;
