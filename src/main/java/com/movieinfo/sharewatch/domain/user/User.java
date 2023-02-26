@@ -81,21 +81,21 @@ public class User extends BaseTimeEntity {
     private List<Review> reviewList = new ArrayList<>();
 
 
-    public void addPost(Subscription sub){
+    public void addPost(Subscription sub) {
         //post의 writer 설정은 post에서 함
         subList.add(sub);
     }
 
     public User update(String name, String email, String imageUrl) {
         this.name = name;
-        this.email=email;
-        this.imageUrl=imageUrl;
+        this.email = email;
+        this.imageUrl = imageUrl;
 
         return this;
     }
 
-    public void addReview(Review reivew){
-        reviewList.add(reivew);
+    public void addReview(Review review) {
+        reviewList.add(review);
     }
 
 
