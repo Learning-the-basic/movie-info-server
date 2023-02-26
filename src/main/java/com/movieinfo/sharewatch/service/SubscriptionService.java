@@ -18,7 +18,6 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @Service
@@ -36,11 +35,11 @@ public class SubscriptionService {
 
         Status status = Status.Y;
 
-        return subRepository.findAllByStatus(PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC,"Id")), status).map(SubscriptionDto::toDto);
+        return subRepository.findAllByStatus(PageRequest.of(page, 3, Sort.by(Sort.Direction.DESC, "Id")), status).map(SubscriptionDto::toDto);
     }
 
     @Transactional
-    public SubscriptionDto selectSubscription(Long id){
+    public SubscriptionDto selectSubscription(Long id) {
 
         Status status = Status.Y;
         Subscription sub = subRepository.findByStatusAndId(id, status);
@@ -57,13 +56,13 @@ public class SubscriptionService {
     }
 
     @Transactional
-    public String createSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto){
+    public String createSubscription(SubscriptionDto.SubSaveRequestDto subRequestDto) {
 
         User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(UserException::new);
 
         Long groupId = createSubGroup();
 
-        SubscriptionGroup subGroup = subGroupRepository.findById(groupId).orElseThrow(()-> new RuntimeException());
+        SubscriptionGroup subGroup = subGroupRepository.findById(groupId).orElseThrow(() -> new RuntimeException());
 
         Subscription sub = subRequestDto.toEntity();
 
@@ -83,7 +82,7 @@ public class SubscriptionService {
         userSubGroupRepository.save(us);
     }
 
-        @Transactional
+    @Transactional
     public Long createSubGroup() {
 
         SubscriptionGroup subGroup = new SubscriptionGroup();
@@ -95,7 +94,7 @@ public class SubscriptionService {
     public void updateSubscription(Long post_id, SubscriptionDto.SubUpdateRequestDto sReq) {
         Optional<Subscription> sub = Optional.ofNullable(subRepository.findById(post_id).orElseThrow(RuntimeException::new));
 
-        if(sub.isPresent()){
+        if (sub.isPresent()) {
             Subscription subscription = sub.get();
 
             subscription.changeSub(sReq.getTitle(), sReq.getContent(), sReq.getSubService(), sReq.getSubCharge(), sReq.getSubMemLimit());
@@ -114,10 +113,10 @@ public class SubscriptionService {
 
     @Transactional
     public void insertSubscriptionGroupUser(Long id) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(() -> new UserException());
 
         Optional<SubscriptionGroup> subGroup = Optional.ofNullable(subGroupRepository.findById(id).orElseThrow(RuntimeException::new));
-        if(subGroup.isPresent()){
+        if (subGroup.isPresent()) {
 
             SubscriptionGroup subscription = subGroup.get();
 
@@ -130,9 +129,9 @@ public class SubscriptionService {
 
     @Transactional
     public void deleteUserAndGroup(Long id) {
-        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(()-> new UserException());
+        User user = userRepository.findByEmail(SecurityUtil.getLoginUsername()).orElseThrow(() -> new UserException());
 
-        SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(()-> new RuntimeException());
+        SubscriptionGroup subGroup = subGroupRepository.findById(id).orElseThrow(() -> new RuntimeException());
 
         UserSubGroup userSubGroup = new UserSubGroup();
 

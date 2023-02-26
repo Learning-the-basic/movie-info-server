@@ -1,10 +1,7 @@
 package com.movieinfo.sharewatch.web;
 
-import com.movieinfo.sharewatch.domain.subscription.Subscription;
-import com.movieinfo.sharewatch.domain.subscription.UserSubGroup;
 import com.movieinfo.sharewatch.service.SubscriptionService;
 import com.movieinfo.sharewatch.web.dto.subscription.SubscriptionDto;
-import com.movieinfo.sharewatch.web.dto.subscription.UserSubGroupDto;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -14,9 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @RestController
@@ -28,14 +22,14 @@ public class SubscriptionController {
     //selectAll
     @ApiOperation(value = "커뮤니티 게시글 전체 조회", notes = "커뮤니티 게시글모두 조회한다.")
     @GetMapping("/community")
-    public String selectSubscriptionList(Model model, @RequestParam(required = false, defaultValue = "0", value="page") int page){
+    public String selectSubscriptionList(Model model, @RequestParam(required = false, defaultValue = "0", value = "page") int page) {
 
         Page<SubscriptionDto> listPage = subService.selectSubscriptionList(page);
 
         int totalPage = listPage.getTotalPages();
 
-        model.addAttribute("subscription" , listPage.getContent());
-        model.addAttribute("totalPage" , totalPage);
+        model.addAttribute("subscription", listPage.getContent());
+        model.addAttribute("totalPage", totalPage);
 
         return "subscription/community";
     }
@@ -44,18 +38,18 @@ public class SubscriptionController {
     @ApiOperation(value = "커뮤니티 게시글 상세 조회", notes = "커뮤니티 게시글을 상세 조회한다.")
     @GetMapping("/subscription/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public String selectSubscription(@PathVariable("id") Long post_id, Model model){
+    public String selectSubscription(@PathVariable("id") Long post_id, Model model) {
 
-        model.addAttribute("subscription" , subService.selectSubscription(post_id));
+        model.addAttribute("subscription", subService.selectSubscription(post_id));
         return "subscription/view";
 
-}
+    }
 
     //create
     @ApiOperation(value = "커뮤니티 게시글 생성", notes = "커뮤니티 게시글을 생성한다.")
     @PostMapping("/subscription")
     @ResponseStatus(HttpStatus.CREATED)
-    public String createSubscription(SubscriptionDto.SubSaveRequestDto subSaveRequestDto){
+    public String createSubscription(SubscriptionDto.SubSaveRequestDto subSaveRequestDto) {
         return subService.createSubscription(subSaveRequestDto);
 
     }
@@ -92,7 +86,7 @@ public class SubscriptionController {
     @DeleteMapping("/subscriptionGroup-exit/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void deleteUserAndGroup(@ApiParam(value = "커뮤니티 그룹 id", required = true) @PathVariable("id") Long id) {
-         subService.deleteUserAndGroup(id);
+        subService.deleteUserAndGroup(id);
     }
 
 

@@ -1,7 +1,6 @@
 package com.movieinfo.sharewatch.domain.subscription;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.movieinfo.sharewatch.domain.user.User;
 import lombok.*;
 
 import javax.persistence.*;

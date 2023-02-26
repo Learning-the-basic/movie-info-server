@@ -1,6 +1,5 @@
 package com.movieinfo.sharewatch.web.dto.post;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data

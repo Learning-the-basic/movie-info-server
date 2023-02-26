@@ -1,12 +1,12 @@
 package com.movieinfo.sharewatch.domain.subscription;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.posts.Status;
 import com.movieinfo.sharewatch.domain.user.User;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
+
 import javax.persistence.*;
 
 @Getter
@@ -22,10 +22,10 @@ public class Subscription extends BaseTimeEntity {
     @Column(name = "sub_id")
     private Long id;
 
-    @Column(length = 255,nullable = false, name = "sub_title")
+    @Column(length = 255, nullable = false, name = "sub_title")
     protected String title;
 
-    @Column(columnDefinition = "TEXT",nullable = false, name = "sub_content")
+    @Column(columnDefinition = "TEXT", nullable = false, name = "sub_content")
     protected String content;
 
     @Column(columnDefinition = "integer default 0", name = "sub_count")
@@ -50,14 +50,14 @@ public class Subscription extends BaseTimeEntity {
 
     @Column(name = "sub_mem_count")       // 현제 구독 인원
     private Integer subMemCount;
-    
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sub_group_id")
     private SubscriptionGroup subGroup;
 
     @Builder(builderClassName = "PostBuilder", builderMethodName = "PostBuilder")
     public Subscription(User user, String title, String content, int count, Status status,
-                        String subService, int subMemLimit,int subMemCount, int subCharge, SubscriptionGroup subGroup){
+                        String subService, int subMemLimit, int subMemCount, int subCharge, SubscriptionGroup subGroup) {
         this.user = user;
         this.title = title;
         this.content = content;
@@ -82,7 +82,7 @@ public class Subscription extends BaseTimeEntity {
     }
 
     //== 내용 수정 ==//
-    public void changeSub(String subTitle, String subContent, String subService, int subCharge, int subMemLimit){
+    public void changeSub(String subTitle, String subContent, String subService, int subCharge, int subMemLimit) {
         this.title = subTitle;
         this.content = subContent;
         this.subService = subService;
@@ -90,7 +90,7 @@ public class Subscription extends BaseTimeEntity {
         this.subMemLimit = subMemLimit;
     }
 
-    public void increaseMemberCount(){
+    public void increaseMemberCount() {
         this.subMemCount++;
     }
 

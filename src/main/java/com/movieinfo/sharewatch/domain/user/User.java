@@ -5,7 +5,6 @@ import com.movieinfo.sharewatch.auth.AuthProvider;
 import com.movieinfo.sharewatch.domain.BaseTimeEntity;
 import com.movieinfo.sharewatch.domain.review.Review;
 import com.movieinfo.sharewatch.domain.subscription.Subscription;
-import com.movieinfo.sharewatch.domain.subscription.SubscriptionGroup;
 import com.movieinfo.sharewatch.domain.subscription.UserSubGroup;
 import com.sun.istack.NotNull;
 import lombok.*;
