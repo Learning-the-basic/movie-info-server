@@ -91,9 +91,8 @@ public class ReviewService {
 
         List<ReviewDto> reviewDtoList = new ArrayList<>();
 
-        String movieMninfo = movieMn;
         for (Review review : reviews) {
-            if (review.getRefMNo().equals(movieMninfo)) {
+            if (review.getRefMNo().equals(movieMn)) {
                 ReviewDto dto = ReviewDto.builder()
                         .reviewId(review.getReviewId())
                         .reftype(review.getReftype())
