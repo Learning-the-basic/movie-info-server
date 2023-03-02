@@ -36,9 +36,7 @@ public class ReviewService {
     @Transactional
     public void deleteReview(Long id) {
         Optional<Review> review = reviewRepository.findById(id);
-        if (review.isPresent()) {
-            reviewRepository.delete(review.get());
-        }
+        review.ifPresent(reviewRepository::delete);
     }
 
     @Transactional
