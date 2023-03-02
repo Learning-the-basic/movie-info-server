@@ -57,7 +57,7 @@ public class ReviewService {
     @Transactional
     public ReviewDto read(long id) {
 
-        Optional<Review> entity = reviewRepository.findById((long) id);
+        Optional<Review> entity = reviewRepository.findById(id);
 
         if (entity.isPresent()) {
             Review review = entity.get();
